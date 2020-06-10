@@ -1,0 +1,87 @@
+﻿<adonisControls:AdonisWindow x:Name="Symfosys_CMD" x:Class="SymfosysCMD.NewProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SymfosysCMD"
+        xmlns:validation="clr-namespace:SymfosysCMD.Validation"
+        xmlns:folderDialog="clr-namespace:SymfosysCMD.FolderDialog"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+        xmlns:MyNamespace="clr-namespace:SymfosysCMD"
+        mc:Ignorable="d" Height="200" Width="275"
+        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" 
+        Title="New Symfony Project" Icon="symfony.png" 
+        MinWidth="275" MinHeight="200" ResizeMode="NoResize" 
+        HorizontalAlignment="Center" VerticalAlignment="Center"
+        WindowStartupLocation="CenterOwner">
+    <adonisControls:AdonisWindow.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </adonisControls:AdonisWindow.Style>
+    <adonisControls:AdonisWindow.DataContext>
+        <folderDialog:MainViewModel></folderDialog:MainViewModel>
+    </adonisControls:AdonisWindow.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Separator Grid.Column="1" Grid.Row="0" Margin="0,0,0,0" VerticalAlignment="Stretch" />
+        <Label Grid.Column="1" Grid.Row="2" Content="Project Name"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Margin="0,5,0,0" adonisExtensions:ValidationExtension.IsErrorMessageVisibleOnFocus="True"
+         adonisExtensions:ValidationExtension.IsErrorMessageVisibleOnMouseOver="True" Name="projectName"
+        adonisExtensions:WatermarkExtension.Watermark="Give your project a name">
+            <Binding Path="ProjectName"
+                 UpdateSourceTrigger="PropertyChanged">
+                <Binding.ValidationRules>
+                    <validation:EmptyStringValidationRule />
+                </Binding.ValidationRules>
+            </Binding>
+        </TextBox>
+        <StackPanel Grid.Column="1" Grid.Row="4">
+            <Label Content="Project Directory" Margin="0,10,0,0"/>
+            <TextBlock x:Name="projectDirectory" Text="{Binding FolderName}" />
+            <Button Content="Select Folder">
+                <i:Interaction.Behaviors>
+                    <folderDialog:FolderDialogBehavior SetterName="FolderName"/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="5" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="2" Content="Save" x:Name="saveButton" Click="SaveProject">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <!-- Require the controls to be valid in order to press OK -->
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=projectName, Path=(Validation.HasError)}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+    </Grid>
+</adonisControls:AdonisWindow>

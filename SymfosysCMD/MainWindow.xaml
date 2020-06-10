@@ -1,12 +1,171 @@
-﻿<Window x:Class="SymfosisCMD.MainWindow"
+﻿<adonisControls:AdonisWindow x:Name="Symfosys_CMD" x:Class="SymfosysCMD.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SymfosisCMD"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        xmlns:local="clr-namespace:SymfosysCMD"
+        xmlns:commands="clr-namespace:SymfosysCMD.Commands"
+        xmlns:MyNamespace="clr-namespace:SymfosysCMD"
+        mc:Ignorable="d" Height="450" Width="820" MinWidth="820" MinHeight="450"
+        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" Icon="symfony.png">
+    <adonisControls:AdonisWindow.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </adonisControls:AdonisWindow.Style>
+    <adonisControls:AdonisWindow.CommandBindings>
+        <CommandBinding Command="commands:CustomCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
+        <CommandBinding Command="commands:CustomCommands.Open" CanExecute="OpenCommand_CanExecute" Executed="OpenCommand_Executed" />
+        <CommandBinding Command="commands:CustomCommands.Save" CanExecute="SaveCommand_CanExecute" Executed="SaveCommand_Executed" />
+        <CommandBinding Command="commands:CustomCommands.Preferences" CanExecute="PreferencesCommand_CanExecute" Executed="PreferencesCommand_Executed" />
+        <CommandBinding Command="commands:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
+    </adonisControls:AdonisWindow.CommandBindings>
+    <adonisControls:AdonisWindow.TitleBarContent>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+            <Menu Padding="5">
+                <MenuItem x:Name="project_menu" Header="Project">
+                    <MenuItem Header="New" Command="commands:CustomCommands.New" />
+                    <Separator />
+                    <MenuItem Header="Open" Command="commands:CustomCommands.Open" />
+                    <Separator />
+                    <MenuItem Header="Save" Command="commands:CustomCommands.Save" />
+                    <Separator />
+                    <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences" />
+                    <MenuItem Header="Close" Command="commands:CustomCommands.Exit" />
+                </MenuItem>
+                <MenuItem Header="Assets">
+                    <MenuItem Header="Reload Assets" />
+                </MenuItem>
+                <MenuItem Header="Cache">
+                    <MenuItem Header="Clear Prod Cache"/>
+                    <MenuItem Header="Clear Dev Cache"/>
+                    <MenuItem Header="Result"/>
+                    <MenuItem Header="Query"/>
+                    <MenuItem Header="Collection Region"/>
+                    <MenuItem Header="Query Region"/>
+                    <MenuItem Header="Entity Region"/>
+                    <MenuItem Header="Metadata"/>
+                </MenuItem>
+                <MenuItem Header="Database">
+                    <Separator />
+                    <MenuItem Header="Schema">
+                        <MenuItem Header="Create"/>
+                        <MenuItem Header="Update"/>
+                        <MenuItem Header="Drop"/>
+                        <MenuItem Header="Validate"/>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Mappings">
+                        <MenuItem Header="Info"/>
+                        <MenuItem Header="Import"/>
+                        <MenuItem Header="Convert"/>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="DQL"/>
+                    <MenuItem Header="SQL"/>
+                    <MenuItem Header="Create"/>
+                    <MenuItem Header="Drop"/>
+                </MenuItem>
+                <MenuItem Header="Debug">
+                    <MenuItem Header="Config"/>
+                    <MenuItem Header="Router"/>
+                    <MenuItem Header="Twig"/>
+                    <MenuItem Header="Container"/>
+                    <MenuItem Header="Event Dispatcher"/>
+                    <MenuItem Header="SwiftMailer"/>
+                </MenuItem>
+                <MenuItem Header="Entities">
+                    <MenuItem Header="Form"/>
+                    <MenuItem Header="Entity"/>
+                    <MenuItem Header="CRUD Controller"/>
+                </MenuItem>
+                <MenuItem Header="Generate">
+                    <MenuItem Header="Entity"/>
+                    <MenuItem Header="Controller"/>
+                    <MenuItem Header="Command"/>
+                    <MenuItem Header="Bundle"/>
+                </MenuItem>
+                <MenuItem Header="Router">
+                    <MenuItem Header="Match"/>
+                </MenuItem>
+                <MenuItem Header="Security">
+                    <MenuItem Header="Check"/>
+                    <MenuItem Header="Encode Password"/>
+                </MenuItem>
+                <MenuItem Header="SwiftMailer">
+                    <MenuItem Header="Send Email"/>
+                    <MenuItem Header="Send Pool"/>
+                </MenuItem>
+            </Menu>
+            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.DefaultToAccentToggleButton}}"
+            IsChecked="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
+            Content="Lights Out"></ToggleButton>
+        </StackPanel>
         
-    </Grid>
-</Window>
+    </adonisControls:AdonisWindow.TitleBarContent>
+    <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="1" Grid.Row="1">
+                <TextBlock x:Name="php_version" Text="PHP Version: Not Found"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2" Grid.Row="1">
+                <TextBlock x:Name="symfony_version" Text="Symfony Version: "/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3" Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" x:Name="project_path" Text="Selected Project:" Margin="0,4,4,0"/>
+                    <ComboBox x:Name="selectedProjectComboBox" Grid.Column="1" Style="{DynamicResource {x:Static adonisUi:Styles.AccentComboBox}}">
+                        <ComboBoxItem Content="None" IsSelected="True" />
+                    </ComboBox>
+                </Grid>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+            <Separator Grid.Column="1" Grid.Row="0" Margin="0,0,0,0" VerticalAlignment="Stretch" />
+            <TabControl Grid.Column="1" Grid.Row="2" x:Name="consoleTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TabControl.Resources>
+                    <Style TargetType="local:CloseableTab">
+                        <Setter Property="AllowDrop" Value="True"/>
+                        <EventSetter Event="PreviewMouseMove" Handler="TabItem_PreviewMouseMove"/>
+                        <EventSetter Event="Drop" Handler="TabItem_Drop"/>
+                    </Style>
+                </TabControl.Resources>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+
+
+</adonisControls:AdonisWindow>
