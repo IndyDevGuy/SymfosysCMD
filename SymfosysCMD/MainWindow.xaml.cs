@@ -1,22 +1,14 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using SymfosysCMD.Controls;
 using SymfosysCMD.DataContext;
+using SymfosysCMD.Windows;
+using SymfosysCMD.Settings;
 
 namespace SymfosysCMD
 {
@@ -27,6 +19,7 @@ namespace SymfosysCMD
     {
         //windows
         public NewProjectWindow newProjectWindow;
+        public ProjectPreferences projectPreferencesWindow;
 
         public bool IsDark
         {
@@ -43,7 +36,6 @@ namespace SymfosysCMD
         public CommandConsole commandConsole;
         public SettingsManager settingsManager;
 
-        public List<string[]> projects;
         public Dictionary<string, Profile> profiles;
 
         public string activeProfileName;
@@ -52,17 +44,17 @@ namespace SymfosysCMD
         public MainWindow()
         {
             this.profiles = new Dictionary<string, Profile>();
-            this.projects = new List<string[]>();
-            this.settingsManager = new SettingsManager(this);
+            this.settingsManager = new SettingsManager();
             string themeType = this.settingsManager.getSettingsTheme();
             if (themeType == "dark")
                 this.IsDark = true;
             else
                 this.IsDark = false;
-            this.reloadProfiles();
+            
             AdonisUI.SpaceExtension.SetSpaceResourceOwnerFallback(this);
             this.commandConsole = new CommandConsole();
             InitializeComponent();
+            this.reloadProfiles();
             DataContext = new ApplicationDataContext();
             php_version.Text = "PHP Version: " + this.commandConsole.phpVersion;
             if(this.activeProfile != null)
@@ -91,11 +83,11 @@ namespace SymfosysCMD
             string activeProfileName = this.settingsManager.getSettingsActiveProfile();
             if (activeProfileName != null)
             {
-                Profile activeProfile = this.settingsManager.getSettingsProfile(activeProfileName);
-                foreach (KeyValuePair<int, SymfosysConsole> item in activeProfile.getSymfosysConsoles())
-                {
-                    item.Value.tab.changeTheme();
-                }
+                //Profile activeProfile = this.settingsManager.getSettingsProfile(activeProfileName);
+                //foreach (KeyValuePair<int, SymfosysConsole> item in activeProfile.getSymfosysConsoles())
+                //{
+                //    item.Value.tab.changeTheme();
+                //}
             }
         }
 
@@ -107,25 +99,11 @@ namespace SymfosysCMD
             this.newProjectWindow.ShowDialog();
         }
 
-        public void refreshProjects()
+        private void projectPreferencesForm(object sender)
         {
-            foreach(string[] project in this.projects)
-            {
-                int index = 0;
-                foreach (string data in project)
-                {
-                    if (index == 0)
-                    {
-                        // project name should always be first in the project array!
-                        selectedProjectComboBox.Items.Add(data);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    index++;
-                }
-            }
+            this.projectPreferencesWindow = new ProjectPreferences(this);
+            this.projectPreferencesWindow.Owner = this;
+            this.projectPreferencesWindow.ShowDialog();
         }
 
         private class Item
@@ -205,15 +183,6 @@ namespace SymfosysCMD
         }
 
         //Commands
-        private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //Application.Current.Shutdown();
-        }
 
         private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -225,16 +194,6 @@ namespace SymfosysCMD
             this.newProjectForm(sender);
         }
 
-        private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //Application.Current.Shutdown();
-        }
-
         private void PreferencesCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -242,7 +201,7 @@ namespace SymfosysCMD
 
         private void PreferencesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //Application.Current.Shutdown();
+            this.projectPreferencesForm(sender);
         }
 
         private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

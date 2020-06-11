@@ -14,94 +14,92 @@
     </adonisControls:AdonisWindow.Style>
     <adonisControls:AdonisWindow.CommandBindings>
         <CommandBinding Command="commands:CustomCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
-        <CommandBinding Command="commands:CustomCommands.Open" CanExecute="OpenCommand_CanExecute" Executed="OpenCommand_Executed" />
-        <CommandBinding Command="commands:CustomCommands.Save" CanExecute="SaveCommand_CanExecute" Executed="SaveCommand_Executed" />
         <CommandBinding Command="commands:CustomCommands.Preferences" CanExecute="PreferencesCommand_CanExecute" Executed="PreferencesCommand_Executed" />
         <CommandBinding Command="commands:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
     </adonisControls:AdonisWindow.CommandBindings>
     <adonisControls:AdonisWindow.TitleBarContent>
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Left">
-            <Menu Padding="5">
-                <MenuItem x:Name="project_menu" Header="Project">
-                    <MenuItem Header="New" Command="commands:CustomCommands.New" />
-                    <Separator />
-                    <MenuItem Header="Open" Command="commands:CustomCommands.Open" />
-                    <Separator />
-                    <MenuItem Header="Save" Command="commands:CustomCommands.Save" />
-                    <Separator />
-                    <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences" />
-                    <MenuItem Header="Close" Command="commands:CustomCommands.Exit" />
-                </MenuItem>
-                <MenuItem Header="Assets">
-                    <MenuItem Header="Reload Assets" />
-                </MenuItem>
-                <MenuItem Header="Cache">
-                    <MenuItem Header="Clear Prod Cache"/>
-                    <MenuItem Header="Clear Dev Cache"/>
-                    <MenuItem Header="Result"/>
-                    <MenuItem Header="Query"/>
-                    <MenuItem Header="Collection Region"/>
-                    <MenuItem Header="Query Region"/>
-                    <MenuItem Header="Entity Region"/>
-                    <MenuItem Header="Metadata"/>
-                </MenuItem>
-                <MenuItem Header="Database">
-                    <Separator />
-                    <MenuItem Header="Schema">
-                        <MenuItem Header="Create"/>
-                        <MenuItem Header="Update"/>
-                        <MenuItem Header="Drop"/>
-                        <MenuItem Header="Validate"/>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Mappings">
-                        <MenuItem Header="Info"/>
-                        <MenuItem Header="Import"/>
-                        <MenuItem Header="Convert"/>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="DQL"/>
-                    <MenuItem Header="SQL"/>
+        <Grid>
+        <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="0" Padding="5">
+            <MenuItem x:Name="project_menu" Header="Project">
+                <MenuItem Header="New" Command="commands:CustomCommands.New" />
+                <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences" />
+                <Separator />
+                <MenuItem Header="Close" Command="commands:CustomCommands.Exit" />
+            </MenuItem>
+            <MenuItem Header="Assets">
+                <MenuItem Header="Reload Assets" />
+            </MenuItem>
+            <MenuItem Header="Cache">
+                <MenuItem Header="Clear Prod Cache"/>
+                <MenuItem Header="Clear Dev Cache"/>
+                <MenuItem Header="Result"/>
+                <MenuItem Header="Query"/>
+                <MenuItem Header="Collection Region"/>
+                <MenuItem Header="Query Region"/>
+                <MenuItem Header="Entity Region"/>
+                <MenuItem Header="Metadata"/>
+            </MenuItem>
+            <MenuItem Header="Database">
+                <Separator />
+                <MenuItem Header="Schema">
                     <MenuItem Header="Create"/>
+                    <MenuItem Header="Update"/>
                     <MenuItem Header="Drop"/>
+                    <MenuItem Header="Validate"/>
                 </MenuItem>
-                <MenuItem Header="Debug">
-                    <MenuItem Header="Config"/>
-                    <MenuItem Header="Router"/>
-                    <MenuItem Header="Twig"/>
-                    <MenuItem Header="Container"/>
-                    <MenuItem Header="Event Dispatcher"/>
-                    <MenuItem Header="SwiftMailer"/>
+                <Separator />
+                <MenuItem Header="Mappings">
+                    <MenuItem Header="Info"/>
+                    <MenuItem Header="Import"/>
+                    <MenuItem Header="Convert"/>
                 </MenuItem>
-                <MenuItem Header="Entities">
-                    <MenuItem Header="Form"/>
-                    <MenuItem Header="Entity"/>
-                    <MenuItem Header="CRUD Controller"/>
-                </MenuItem>
-                <MenuItem Header="Generate">
-                    <MenuItem Header="Entity"/>
-                    <MenuItem Header="Controller"/>
-                    <MenuItem Header="Command"/>
-                    <MenuItem Header="Bundle"/>
-                </MenuItem>
-                <MenuItem Header="Router">
-                    <MenuItem Header="Match"/>
-                </MenuItem>
-                <MenuItem Header="Security">
-                    <MenuItem Header="Check"/>
-                    <MenuItem Header="Encode Password"/>
-                </MenuItem>
-                <MenuItem Header="SwiftMailer">
-                    <MenuItem Header="Send Email"/>
-                    <MenuItem Header="Send Pool"/>
-                </MenuItem>
-            </Menu>
-            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.DefaultToAccentToggleButton}}"
+                <Separator />
+                <MenuItem Header="DQL"/>
+                <MenuItem Header="SQL"/>
+                <MenuItem Header="Create"/>
+                <MenuItem Header="Drop"/>
+            </MenuItem>
+            <MenuItem Header="Debug">
+                <MenuItem Header="Config"/>
+                <MenuItem Header="Router"/>
+                <MenuItem Header="Twig"/>
+                <MenuItem Header="Container"/>
+                <MenuItem Header="Event Dispatcher"/>
+                <MenuItem Header="SwiftMailer"/>
+            </MenuItem>
+            <MenuItem Header="Entities">
+                <MenuItem Header="Form"/>
+                <MenuItem Header="Entity"/>
+                <MenuItem Header="CRUD Controller"/>
+            </MenuItem>
+            <MenuItem Header="Generate">
+                <MenuItem Header="Entity"/>
+                <MenuItem Header="Controller"/>
+                <MenuItem Header="Command"/>
+                <MenuItem Header="Bundle"/>
+            </MenuItem>
+            <MenuItem Header="Router">
+                <MenuItem Header="Match"/>
+            </MenuItem>
+            <MenuItem Header="Security">
+                <MenuItem Header="Check"/>
+                <MenuItem Header="Encode Password"/>
+            </MenuItem>
+            <MenuItem Header="SwiftMailer">
+                <MenuItem Header="Send Email"/>
+                <MenuItem Header="Send Pool"/>
+            </MenuItem>
+        </Menu>
+        <ToggleButton Grid.Column="2" Style="{DynamicResource {x:Static adonisUi:Styles.DefaultToAccentToggleButton}}"
             IsChecked="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
             Content="Lights Out"></ToggleButton>
-        </StackPanel>
-        
+        </Grid>
+
     </adonisControls:AdonisWindow.TitleBarContent>
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StatusBar DockPanel.Dock="Bottom">
@@ -112,7 +110,7 @@
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -136,7 +134,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" x:Name="project_path" Text="Selected Project:" Margin="0,4,4,0"/>
-                    <ComboBox x:Name="selectedProjectComboBox" Grid.Column="1" Style="{DynamicResource {x:Static adonisUi:Styles.AccentComboBox}}">
+                    <ComboBox Name="selectedProjectComboBox" Grid.Column="1" Style="{DynamicResource {x:Static adonisUi:Styles.AccentComboBox}}">
                         <ComboBoxItem Content="None" IsSelected="True" />
                     </ComboBox>
                 </Grid>

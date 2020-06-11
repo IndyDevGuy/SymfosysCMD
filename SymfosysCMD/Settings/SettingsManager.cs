@@ -1,54 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace SymfosysCMD
+namespace SymfosysCMD.Settings
 {
     public partial class SettingsManager
     {
-        private MainWindow mainWindow;
 
-        public SettingsManager(MainWindow mainWindow)
+        public SettingsManager()
         {
-            this.mainWindow = mainWindow;
         }
 
         class MySettings : AppSettings<MySettings>
         {
-            public string documentRoot = null;
-            public string SymfonyVersion = null;
-            public int profileCount = 0;
             public string activeProfile = null;
             public string theme = null;
             public Dictionary<string, Profile> profileArray;
-        }
-
-        public string getSettingsDocumentRoot()
-        {
-            MySettings settings = MySettings.Load();
-            return settings.documentRoot;
-        }
-
-        public void setSettingsDocumentRoot(string documentRoot)
-        {
-            MySettings settings = MySettings.Load();
-            settings.documentRoot = documentRoot;
-            settings.Save();
-        }
-
-        public string getSettingsSymfonyVersion()
-        {
-            MySettings settings = MySettings.Load();
-            return settings.SymfonyVersion;
-        }
-
-        public void setSettingsSymfonyVersion(string symfonyVersion)
-        {
-            MySettings settings = MySettings.Load();
-            settings.SymfonyVersion = symfonyVersion;
-            settings.Save();
         }
 
         public string getSettingsTheme()
@@ -62,19 +27,6 @@ namespace SymfosysCMD
         {
             MySettings settings = MySettings.Load();
             settings.theme = theme;
-            settings.Save();
-        }
-
-        public int getSettingsProfileCount()
-        {
-            MySettings settings = MySettings.Load();
-            return settings.profileCount;
-        }
-
-        public void setSettingsProfileCount(int profileCount)
-        {
-            MySettings settings = MySettings.Load();
-            settings.profileCount = profileCount;
             settings.Save();
         }
 
@@ -94,13 +46,24 @@ namespace SymfosysCMD
         public Profile getSettingsProfile(string profile)
         {
             MySettings settings = MySettings.Load();
-            return settings.profileArray[profile];
-            
+            if (settings.profileArray != null)
+            {
+                if(settings.profileArray.ContainsKey(profile))
+                return settings.profileArray[profile];
+            }
+            Profile newProfile = new Profile();
+            newProfile.setName(profile);
+            return newProfile;
         }
 
         public Dictionary<string, Profile> getSettingsProfiles()
         {
             MySettings settings = MySettings.Load();
+            if (settings.profileArray != null)
+                return settings.profileArray;
+            Dictionary<string, Profile> profileArray = new Dictionary<string, Profile>();
+            settings.profileArray = profileArray;
+            settings.Save();
             return settings.profileArray;
         }
 
@@ -109,6 +72,19 @@ namespace SymfosysCMD
             MySettings settings = MySettings.Load();
             settings.profileArray = profiles;
             settings.Save();
+        }
+
+        public void addSettingsProfile(Profile profile)
+        {
+            MySettings settings = MySettings.Load();
+            if (settings.profileArray != null)
+            {
+                if (!settings.profileArray.ContainsKey(profile.getName()))
+                {
+                    settings.profileArray.Add(profile.getName(), profile);
+                    settings.Save();
+                }
+            }
         }
     }
 }

@@ -1,12 +1,7 @@
 ﻿using AdonisUI.Controls;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace SymfosysCMD
 {
@@ -25,7 +20,7 @@ namespace SymfosysCMD
             this.profile = profile;
             this.consoleIndex = consoleIndex;
             this.command = command;
-            this.tab = new CloseableTab(this.mainWindow, profile.profileIndex, this.consoleIndex);
+            this.tab = new CloseableTab(this.mainWindow, profile.getName(), this.consoleIndex);
             this.tab.Title = "Symfosys Console Command";
             this.mainWindow.consoleTabControl.Items.Add(this.tab);
             this.tab.Focus();

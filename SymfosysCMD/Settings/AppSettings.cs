@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Web.Script.Serialization;
 
-namespace SymfosysCMD
+namespace SymfosysCMD.Settings
 {
     public class AppSettings<T> where T : new()
     {

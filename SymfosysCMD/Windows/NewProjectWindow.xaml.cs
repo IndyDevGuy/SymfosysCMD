@@ -1,14 +1,8 @@
 ﻿using AdonisUI.Controls;
 using System;
-using System.Windows;
 using System.Windows.Interop;
 
-using SymfosysCMD.Validation;
-using SymfosysCMD.DataContext;
-using System.Windows.Controls;
-using System.Collections.Generic;
-
-namespace SymfosysCMD
+namespace SymfosysCMD.Windows
 {
     /// <summary>
     /// Interaction logic for NewProjectWindow.xaml
@@ -16,11 +10,12 @@ namespace SymfosysCMD
     public partial class NewProjectWindow : AdonisWindow
     {
         private MainWindow mainWindow;
+
         public NewProjectWindow(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
             InitializeComponent();
-            this.DataContext = new NewProjectDataContext(this); ;
+            projectForm.projectFormDataContext.CrudType = "add";
             this.SourceInitialized += Window1_SourceInitialized;
         }
         private void Window1_SourceInitialized(object sender, EventArgs e)
@@ -50,30 +45,6 @@ namespace SymfosysCMD
             }
             return IntPtr.Zero;
         }
-
-        private void SaveProject(object sender, RoutedEventArgs e)
-        {
-            projectName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            bool projectDirectoryError = false;
-            if (String.IsNullOrEmpty(projectDirectory.Text))
-            {
-                projectDirectoryError = true;
-                var messageBox = new MessageBoxModel
-                {
-                    Text = "Please select a folder for or where your project is located.",
-                    Caption = "Project Directory Error",
-                    Icon = AdonisUI.Controls.MessageBoxImage.Error,
-                    Buttons = MessageBoxButtons.OkCancel("Ok","Close"),
-                };
-                this.saveButton.IsEnabled = false;
-                AdonisUI.Controls.MessageBox.Show(messageBox);
-            }
-            if (Validator.IsValid(this) && !projectDirectoryError)
-            {
-                this.Close();
-            }
-        }
-
 
     }
 

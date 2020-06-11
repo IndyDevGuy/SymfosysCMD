@@ -70,25 +70,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppSettings.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Controls\ProjectFormControl.xaml.cs">
+      <DependentUpon>ProjectFormControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StartupUserControl.xaml.cs">
       <DependentUpon>StartupUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataContext\ApplicationDataContext.cs" />
+    <Compile Include="DataContext\ProjectFormDataContext.cs" />
     <Compile Include="FolderDialog\FolderDialogBehavior.cs" />
     <Compile Include="CommandConsole.cs" />
     <Compile Include="Commands\CustomCommands.cs" />
     <Compile Include="FolderDialog\MainViewModel.cs" />
-    <Compile Include="DataContext\NewProjectDataContext.cs" />
     <Compile Include="Framework\ViewModel.cs" />
-    <Compile Include="NewProjectWindow.xaml.cs">
+    <Compile Include="Windows\NewProjectWindow.xaml.cs">
       <DependentUpon>NewProjectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsManager.cs" />
+    <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="SymfosysConsole.cs" />
     <Compile Include="Validation\EmptyStringValidationRule.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Windows\ProjectPreferences.xaml.cs">
+      <DependentUpon>ProjectPreferences.xaml</DependentUpon>
+    </Compile>
     <Page Include="CloseableHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProjectFormControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,7 +122,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NewProjectWindow.xaml">
+    <Page Include="Windows\NewProjectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProjectPreferences.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -151,6 +165,11 @@
   <ItemGroup>
     <Resource Include="symfony.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Windows\symfony.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Windows\symfony.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

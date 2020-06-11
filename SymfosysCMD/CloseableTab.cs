@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -48,8 +43,8 @@ namespace SymfosysCMD
         {
             Profile profile;
             bool foundProfile = this.mainWindow.profiles.TryGetValue(this.profileIndex, out profile);
-            if(foundProfile)
-                profile.removeSymfosysConsole(this.consoleIndex);
+            //if(foundProfile)
+                //profile.removeSymfosysConsole(this.consoleIndex);
             ((TabControl)this.Parent).Items.Remove(this);
         }
         // Label SizeChanged - When the Size of the Label changes
