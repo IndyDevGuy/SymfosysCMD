@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace SymfosysCMD.Framework
 {
-    class ViewModel : INotifyPropertyChanged, INotifyDataErrorInfo, IDataErrorInfo
+    public class ViewModel : INotifyPropertyChanged, INotifyDataErrorInfo, IDataErrorInfo
     {
         private readonly Dictionary<string, IList<string>> _validationErrors = new Dictionary<string, IList<string>>();
 

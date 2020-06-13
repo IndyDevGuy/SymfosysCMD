@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SymfosysCMD"
         xmlns:commands="clr-namespace:SymfosysCMD.Commands"
+        xmlns:controls="clr-namespace:SymfosysCMD.Controls"
+                             xmlns:context="clr-namespace:SymfosysCMD.DataContext"
         xmlns:MyNamespace="clr-namespace:SymfosysCMD"
         mc:Ignorable="d" Height="450" Width="820" MinWidth="820" MinHeight="450"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisConverters="clr-namespace:AdonisUI.Converters;assembly=AdonisUI"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" Icon="symfony.png">
     <adonisControls:AdonisWindow.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
@@ -24,10 +28,25 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Menu Grid.Column="0" Padding="5">
-            <MenuItem x:Name="project_menu" Header="Project">
+            <Menu Grid.Column="0" Padding="5">
+                <MenuItem x:Name="project_menu" Header="Project">
                 <MenuItem Header="New" Command="commands:CustomCommands.New" />
-                <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences" />
+                    <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="IsEnabled" Value="false" />
+                                <Style.Triggers>
+                                    <!-- Require the controls to be valid in order to press OK -->
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding activeProject}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="true" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
                 <Separator />
                 <MenuItem Header="Close" Command="commands:CustomCommands.Exit" />
             </MenuItem>
@@ -125,7 +144,7 @@
                 <TextBlock x:Name="php_version" Text="PHP Version: Not Found"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="2" Grid.Row="1">
-                <TextBlock x:Name="symfony_version" Text="Symfony Version: "/>
+                <controls:SymfonyVersionControl SymfonyVersion="{Binding SymfonyVersion}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="3" Grid.Row="1">
                 <Grid>
@@ -134,9 +153,13 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" x:Name="project_path" Text="Selected Project:" Margin="0,4,4,0"/>
-                    <ComboBox Name="selectedProjectComboBox" Grid.Column="1" Style="{DynamicResource {x:Static adonisUi:Styles.AccentComboBox}}">
-                        <ComboBoxItem Content="None" IsSelected="True" />
-                    </ComboBox>
+                    <ComboBox Name="selectedProjectComboBox" 
+                        Grid.Column="1" 
+                        ItemsSource="{Binding Profiles}"
+                        DisplayMemberPath="name"
+                        SelectedValuePath="name"
+                        SelectedValue="{Binding Path=Profile}"
+                        Style="{DynamicResource {x:Static adonisUi:Styles.AccentComboBox}}"/>
                 </Grid>
             </StatusBarItem>
         </StatusBar>

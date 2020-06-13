@@ -86,5 +86,19 @@ namespace SymfosysCMD.Settings
                 }
             }
         }
+
+        public void updateSettingsProfile(Profile profile, string originalProfileName)
+        {
+            MySettings settings = MySettings.Load();
+            if(settings.profileArray != null)
+            {
+                if(settings.profileArray.ContainsKey(originalProfileName))
+                {
+                    settings.profileArray.Remove(originalProfileName);
+                    settings.profileArray.Add(profile.getName(),profile);
+                    settings.Save();
+                }
+            }
+        }
     }
 }

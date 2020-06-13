@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Web.Script.Serialization;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace SymfosysCMD.Settings
 {
@@ -9,19 +9,19 @@ namespace SymfosysCMD.Settings
 
         public void Save(string fileName = DEFAULT_FILENAME)
         {
-            File.WriteAllText(fileName, (new JavaScriptSerializer().Serialize(this)));
+            File.WriteAllText(fileName, (JsonConvert.SerializeObject(this)));
         }
 
         public static void Save(T pSettings, string fileName = DEFAULT_FILENAME)
         {
-            File.WriteAllText(fileName, (new JavaScriptSerializer()).Serialize(pSettings));
+            File.WriteAllText(fileName, (JsonConvert.SerializeObject(pSettings)));
         }
 
         public static T Load(string fileName = DEFAULT_FILENAME)
         {
             T t = new T();
             if (File.Exists(fileName))
-                t = (new JavaScriptSerializer()).Deserialize<T>(File.ReadAllText(fileName));
+                t = (JsonConvert.DeserializeObject<T>(File.ReadAllText(fileName)));
             return t;
         }
     }

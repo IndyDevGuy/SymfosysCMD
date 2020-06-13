@@ -7,12 +7,16 @@ namespace SymfosysCMD
         private string _documentRoot;
         private string _symfonyVersion;
 
+        public Profile()
+        {
+        }
         public string name { get { return this._name; } set { this._name = value; } }
         public string documentRoot { get { return this._documentRoot; } set { this._documentRoot = value;  } }
         public string symfonyVersion { get { return this._symfonyVersion; } set { this._symfonyVersion = value; } }
 
-        public Profile()
+        public override string ToString()
         {
+            return name;
         }
 
         public string setName(string name)

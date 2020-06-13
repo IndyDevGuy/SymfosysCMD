@@ -62,6 +62,18 @@ namespace SymfosysCMD.Controls
                     this.mainWindow.reloadProfiles();
                     this.mainWindow.newProjectWindow.Close();
                 }
+                else
+                {
+                    this.profile = this.mainWindow.activeProfile;
+                    string originalProfileName = this.profile.getName();
+                    this.profile.setName(projectName.Text);
+                    this.profile.setDocumentRoot(projectDirectory.Text);
+                    this.mainWindow.settingsManager.setSettingsActiveProfile(this.profile.getName());
+                    this.mainWindow.settingsManager.updateSettingsProfile(this.profile, originalProfileName);
+                    this.mainWindow.projectPreferencesWindow.DialogResult = true;
+                    this.mainWindow.reloadProfiles();
+                    this.mainWindow.projectPreferencesWindow.Close();
+                }
             }
         }
     }
