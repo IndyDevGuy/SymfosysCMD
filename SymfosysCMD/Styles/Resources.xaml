@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+        <ResourceDictionary Source="Brushes.xaml"/>
+        <ResourceDictionary Source="TabItemStyles.xaml"/>
+        <ResourceDictionary Source="StatusBarStyles.xaml"/>
+        <ResourceDictionary Source="ToggleButtonStyles.xaml"/>
+        <ResourceDictionary Source="MenuItemStyles.xaml"/>
+        <ResourceDictionary Source="CloseableTabStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

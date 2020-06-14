@@ -185,7 +185,7 @@
             </Grid.RowDefinitions>
             <TabControl Grid.Column="1" Grid.Row="2" x:Name="consoleTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TabControl.Resources>
-                    <Style TargetType="local:CloseableTab">
+                    <Style TargetType="controls:CloseableTab">
                         <Setter Property="AllowDrop" Value="True"/>
                         <EventSetter Event="PreviewMouseMove" Handler="TabItem_PreviewMouseMove"/>
                         <EventSetter Event="Drop" Handler="TabItem_Drop"/>

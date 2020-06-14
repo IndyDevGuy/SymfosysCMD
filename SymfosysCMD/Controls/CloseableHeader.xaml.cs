@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SymfosysCMD
+namespace SymfosysCMD.Controls
 {
     /// <summary>
     /// Interaction logic for CloseableHeader.xaml

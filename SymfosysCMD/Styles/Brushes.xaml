@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <LinearGradientBrush x:Key="GradientBlackBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#3D3D4C" Offset="0" />
+        <GradientStop Color="#32323F" Offset="1.0" />
+    </LinearGradientBrush>
+
+
+    <LinearGradientBrush x:Key="BlackGlossBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#3D3D4C" Offset="0" />
+        <GradientStop Color="#3D3D4C" Offset="0.5" />
+        <GradientStop Color="#32323F" Offset="0.5" />
+        <GradientStop Color="#32323F" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BlackGlossBrushReversed" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#32323F" Offset="0" />
+        <GradientStop Color="#32323F" Offset="0.5" />
+        <GradientStop Color="#3D3D4C" Offset="0.5" />
+        <GradientStop Color="#3D3D4C" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GradientWhiteBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#f6f6f6" Offset="0" />
+        <GradientStop Color="#ededed" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="WhiteGlossBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#f6f6f6" Offset="0" />
+        <GradientStop Color="#f6f6f6" Offset="0.5" />
+        <GradientStop Color="#ededed" Offset="0.5" />
+        <GradientStop Color="#ededed" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="WhiteGlossBrushReversed" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#ededed" Offset="0" />
+        <GradientStop Color="#ededed" Offset="0.5" />
+        <GradientStop Color="#f6f6f6" Offset="0.5" />
+        <GradientStop Color="#f6f6f6" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GreenGlossBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Green" Offset="0" />
+        <GradientStop Color="Green" Offset="0.5" />
+        <GradientStop Color="DarkGreen" Offset="0.5" />
+        <GradientStop Color="DarkGreen" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GreenGlossBrushReversed" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="DarkGreen" Offset="0" />
+        <GradientStop Color="DarkGreen" Offset="0.5" />
+        <GradientStop Color="Green" Offset="0.5" />
+        <GradientStop Color="Green" Offset="1.0" />
+    </LinearGradientBrush>
+
+</ResourceDictionary>

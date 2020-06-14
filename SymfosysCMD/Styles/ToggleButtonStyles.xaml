@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:app="clr-namespace:SymfosysCMD"
+                    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI">
+
+    <Style x:Key="AccentToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Static adonisUi:Styles.DefaultToAccentToggleButton}}">
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=app:MainWindow}}" Value="true" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}"  Value="false"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}" />
+                    <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource GreenGlossBrushReversed}"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=app:MainWindow}}" Value="true" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}"  Value="true"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrush}" />
+                    <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource GreenGlossBrush}"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=app:MainWindow}}" Value="false" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}"  Value="false"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrush}" />
+                    <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource GreenGlossBrush}"/>
+                    <Setter Property="Foreground" Value="White" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=app:MainWindow}}" Value="false" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}"  Value="true"/>
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}" />
+                    <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource GreenGlossBrushReversed}"/>
+                    <Setter Property="Foreground" Value="White" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
