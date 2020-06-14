@@ -10,6 +10,7 @@ using SymfosysCMD.DataContext;
 using SymfosysCMD.Windows;
 using SymfosysCMD.Settings;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace SymfosysCMD
 {
@@ -58,11 +59,12 @@ namespace SymfosysCMD
             this.applicationContext = new ApplicationDataContext();
             this.applicationContext.activeProject = false;
             string themeType = this.settingsManager.getSettingsTheme();
-            if (themeType == "dark")
+            
+            if (themeType == "Dark")
                 this.IsDark = true;
             else
                 this.IsDark = false;
-            
+            this.ChangeTaskbar(themeType);
             AdonisUI.SpaceExtension.SetSpaceResourceOwnerFallback(this);
             this.commandConsole = new CommandConsole();
             InitializeComponent();
@@ -70,6 +72,7 @@ namespace SymfosysCMD
             this.reloadProfiles();
             //init tabs
             this.projectInformationTab = new TabItem();
+            this.projectInformationTab.Style = (Style)this.FindResource("AppTabItem");
             this.projectInformationTab.Header = "Project Inforamtion";
             this.projectInformationControl = new ProjectInformationControl();
             Binding myBinding = new Binding("SymfonyVersion");
@@ -113,13 +116,27 @@ namespace SymfosysCMD
             }
         }
 
+        private void ChangeTaskbar(string theme)
+        {
+            if (theme == "Dark")
+            {
+                TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
+                WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
+            }
+            else
+            {
+                TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
+                WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
+            }
+        }
         private void ChangeTheme(bool oldValue)
         {
             ResourceLocator.SetColorScheme(Application.Current.Resources, oldValue ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
-            string themeType = "light";
+            string themeType = "Light";
             if (!oldValue)
-                themeType = "dark";
+                themeType = "Dark";
             this.settingsManager.setSettingsTheme(themeType);
+            this.ChangeTaskbar(themeType);
             string activeProfileName = this.settingsManager.getSettingsActiveProfile();
             if (activeProfileName != null)
             {

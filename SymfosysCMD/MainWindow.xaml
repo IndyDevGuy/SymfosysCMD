@@ -12,10 +12,9 @@
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:adonisConverters="clr-namespace:AdonisUI.Converters;assembly=AdonisUI"
         xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" Icon="symfony.png">
-    <adonisControls:AdonisWindow.Style>
-        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
-    </adonisControls:AdonisWindow.Style>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" Icon="symfony.png"
+        ShrinkTitleBarWhenMaximized="False" BorderBrush="DarkGreen">
     <adonisControls:AdonisWindow.CommandBindings>
         <CommandBinding Command="commands:CustomCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
         <CommandBinding Command="commands:CustomCommands.Preferences" CanExecute="PreferencesCommand_CanExecute" Executed="PreferencesCommand_Executed" />
@@ -28,12 +27,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-            <Menu Grid.Column="0" Padding="5">
-                <MenuItem x:Name="project_menu" Header="Project">
-                <MenuItem Header="New" Command="commands:CustomCommands.New" />
+            <Menu Grid.Column="0" Padding="5" Background="Transparent">
+                <MenuItem x:Name="project_menu" Header="Project" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="New" Command="commands:CustomCommands.New" Style="{StaticResource MenuItemSiblingGreenStyle}" />
                     <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences">
                         <MenuItem.Style>
-                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItemSiblingGreenStyle}">
                                 <Setter Property="IsEnabled" Value="false" />
                                 <Style.Triggers>
                                     <!-- Require the controls to be valid in order to press OK -->
@@ -47,90 +46,99 @@
                             </Style>
                         </MenuItem.Style>
                     </MenuItem>
-                <Separator />
-                <MenuItem Header="Close" Command="commands:CustomCommands.Exit" />
-            </MenuItem>
-            <MenuItem Header="Assets">
-                <MenuItem Header="Reload Assets" />
-            </MenuItem>
-            <MenuItem Header="Cache">
-                <MenuItem Header="Clear Prod Cache"/>
-                <MenuItem Header="Clear Dev Cache"/>
-                <MenuItem Header="Result"/>
-                <MenuItem Header="Query"/>
-                <MenuItem Header="Collection Region"/>
-                <MenuItem Header="Query Region"/>
-                <MenuItem Header="Entity Region"/>
-                <MenuItem Header="Metadata"/>
-            </MenuItem>
-            <MenuItem Header="Database">
-                <Separator />
-                <MenuItem Header="Schema">
-                    <MenuItem Header="Create"/>
-                    <MenuItem Header="Update"/>
-                    <MenuItem Header="Drop"/>
-                    <MenuItem Header="Validate"/>
+                    <Separator />
+                    <MenuItem Header="Close" Command="commands:CustomCommands.Exit" Padding="5" Style="{StaticResource MenuItemSiblingGreenStyle}">
+                        <MenuItem.Icon>
+                            <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" Height="20">
+                                <Canvas  Margin="0,0,0,5" Width="20" Height="20">
+                                    <Path x:Name="iconFill" Fill="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                                </Canvas>
+                            </Viewbox>
+
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-                <Separator />
-                <MenuItem Header="Mappings">
-                    <MenuItem Header="Info"/>
-                    <MenuItem Header="Import"/>
-                    <MenuItem Header="Convert"/>
+                <MenuItem Header="Assets" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Reload Assets" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
                 </MenuItem>
-                <Separator />
-                <MenuItem Header="DQL"/>
-                <MenuItem Header="SQL"/>
-                <MenuItem Header="Create"/>
-                <MenuItem Header="Drop"/>
-            </MenuItem>
-            <MenuItem Header="Debug">
-                <MenuItem Header="Config"/>
-                <MenuItem Header="Router"/>
-                <MenuItem Header="Twig"/>
-                <MenuItem Header="Container"/>
-                <MenuItem Header="Event Dispatcher"/>
-                <MenuItem Header="SwiftMailer"/>
-            </MenuItem>
-            <MenuItem Header="Entities">
-                <MenuItem Header="Form"/>
-                <MenuItem Header="Entity"/>
-                <MenuItem Header="CRUD Controller"/>
-            </MenuItem>
-            <MenuItem Header="Generate">
-                <MenuItem Header="Entity"/>
-                <MenuItem Header="Controller"/>
-                <MenuItem Header="Command"/>
-                <MenuItem Header="Bundle"/>
-            </MenuItem>
-            <MenuItem Header="Router">
-                <MenuItem Header="Match"/>
-            </MenuItem>
-            <MenuItem Header="Security">
-                <MenuItem Header="Check"/>
-                <MenuItem Header="Encode Password"/>
-            </MenuItem>
-            <MenuItem Header="SwiftMailer">
-                <MenuItem Header="Send Email"/>
-                <MenuItem Header="Send Pool"/>
-            </MenuItem>
-        </Menu>
-        <ToggleButton Grid.Column="2" Style="{DynamicResource {x:Static adonisUi:Styles.DefaultToAccentToggleButton}}"
+                <MenuItem Header="Cache" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Clear Prod Cache" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Clear Dev Cache" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Result" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Query" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Collection Region" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Query Region" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Entity Region" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Metadata" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Database" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <Separator />
+                    <MenuItem Header="Schema" Style="{StaticResource MenuItemSiblingGreenStyle}">
+                        <MenuItem Header="Create" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                        <MenuItem Header="Update" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                        <MenuItem Header="Drop" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                        <MenuItem Header="Validate" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Mappings" Style="{StaticResource MenuItemSiblingGreenStyle}">
+                        <MenuItem Header="Info" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                        <MenuItem Header="Import" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                        <MenuItem Header="Convert" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="DQL" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="SQL" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Create" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Drop" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Debug" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Config" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Router" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Twig" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Container" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Event Dispatcher" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="SwiftMailer" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Entities" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Form" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Entity" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="CRUD Controller" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Generate" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Entity" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Controller" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Command" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Bundle" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Router" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Match" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Security" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Check" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Encode Password" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+                <MenuItem Header="SwiftMailer" Style="{StaticResource MenuItemParentGreenStyle}">
+                    <MenuItem Header="Send Email" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                    <MenuItem Header="Send Pool" Style="{StaticResource MenuItemSiblingGreenStyle}"/>
+                </MenuItem>
+            </Menu>
+            <ToggleButton Grid.Column="2"
             IsChecked="{Binding IsDark, RelativeSource={RelativeSource FindAncestor, AncestorType=local:MainWindow}}"
-            Content="Lights Out"></ToggleButton>
+            Content="Lights Out" BorderThickness="0" Style="{StaticResource AccentToggleButton}" />
         </Grid>
 
     </adonisControls:AdonisWindow.TitleBarContent>
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar DockPanel.Dock="Bottom" Style="{StaticResource AppStatusBar}">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="5"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2"/>
@@ -165,9 +173,9 @@
         </StatusBar>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="8"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1"/>
@@ -175,7 +183,6 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
-            <Separator Grid.Column="1" Grid.Row="0" Margin="0,0,0,0" VerticalAlignment="Stretch" />
             <TabControl Grid.Column="1" Grid.Row="2" x:Name="consoleTabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TabControl.Resources>
                     <Style TargetType="local:CloseableTab">

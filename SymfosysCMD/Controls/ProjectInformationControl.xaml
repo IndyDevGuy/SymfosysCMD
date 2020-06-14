@@ -64,7 +64,7 @@
                                             <DataTemplate>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
                                                     <ProgressBar Grid.Column="0" Padding="10" adonisExtensions:ProgressBarExtension.Content="Checking the currently installed Symfony Version.." adonisExtensions:ProgressBarExtension.IsProgressAnimationEnabled="True" IsIndeterminate="True"/>
                                                 </Grid>
