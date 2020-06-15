@@ -5,7 +5,7 @@
                     xmlns:adonisConverters="clr-namespace:AdonisUI.Converters;assembly=AdonisUI"
                     xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI">
 
-    <Style x:Key="{x:Type controls:CloseableTab}" TargetType="controls:CloseableTab" >
+    <Style x:Key="CloseableTab" TargetType="controls:CloseableTab" >
         <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"/>
@@ -74,6 +74,7 @@
 
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Margin" TargetName="OuterGrid" Value="0, 0, 0, -1"/>
+                            <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}"/>
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="False">
@@ -81,11 +82,13 @@
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" SourceName="TabPanel" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBrush}}"/>
+                            <Setter Property="Background" Value="{DynamicResource GreenGlossBrush}"/>
+                            <Setter Property="Foreground" Value="White" />
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"/>
-                            <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1IntenseHighlightBrush}}"/>
+                            <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource GreenGlossBrush}"/>
                             <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1IntenseHighlightBorderBrush}}"/>
                         </Trigger>
+
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -93,7 +96,8 @@
                                 <Condition Binding="{Binding IsMouseOver, ElementName=TabPanel}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer2HighlightBrush}}"/>
+                                <Setter Property="Background" Value="{DynamicResource GreenGlossBrush}"/>
+                                <Setter Property="Foreground" Value="White" />
                                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer2HighlightBorderBrush}}"/>
                                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer2IntenseHighlightBrush}}"/>
                                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer2IntenseHighlightBorderBrush}}"/>
@@ -106,7 +110,8 @@
                                 <Condition Binding="{Binding IsMouseOver, ElementName=TabPanel}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer3HighlightBrush}}"/>
+                                <Setter Property="Background" Value="{DynamicResource GreenGlossBrush}"/>
+                                <Setter Property="Foreground" Value="White" />
                                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer3HighlightBorderBrush}}"/>
                                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer3IntenseHighlightBrush}}"/>
                                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer3IntenseHighlightBorderBrush}}"/>
@@ -119,7 +124,8 @@
                                 <Condition Binding="{Binding IsMouseOver, ElementName=TabPanel}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer4HighlightBrush}}"/>
+                                <Setter Property="Background" Value="{DynamicResource GreenGlossBrush}"/>
+                                <Setter Property="Foreground" Value="White" />
                                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer4HighlightBorderBrush}}"/>
                                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer4IntenseHighlightBrush}}"/>
                                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer4IntenseHighlightBorderBrush}}"/>
@@ -147,7 +153,8 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" >
-                <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBrush}}"/>
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}"/>
                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="Transparent"/>
                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="Transparent"/>
             </DataTrigger>
@@ -158,7 +165,8 @@
                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer2HighlightBrush}}"/>
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}"/>
                     <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="Transparent"/>
                     <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="Transparent"/>
                 </MultiDataTrigger.Setters>
@@ -170,7 +178,8 @@
                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer3HighlightBrush}}"/>
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}"/>
                     <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="Transparent"/>
                     <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="Transparent"/>
                 </MultiDataTrigger.Setters>
@@ -182,7 +191,8 @@
                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer4HighlightBrush}}"/>
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="{DynamicResource GreenGlossBrushReversed}"/>
                     <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush" Value="Transparent"/>
                     <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush" Value="Transparent"/>
                 </MultiDataTrigger.Setters>

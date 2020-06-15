@@ -7,12 +7,13 @@ using System.Windows.Input;
 
 using SymfosysCMD.Controls;
 using SymfosysCMD.DataContext;
-using SymfosysCMD.Windows;
 using SymfosysCMD.Settings;
 using System.Windows.Data;
 using System.Windows.Media;
+using SymfosysCMD.Console;
+using SymfosysCMD.Framework;
 
-namespace SymfosysCMD
+namespace SymfosysCMD.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -40,6 +41,7 @@ namespace SymfosysCMD
         public SettingsManager settingsManager;
 
         public Dictionary<string, Profile> profiles;
+        public Dictionary<string, ConsoleManager> consoleManagers;
 
         public string activeProfileName;
         public Profile activeProfile;
@@ -55,6 +57,7 @@ namespace SymfosysCMD
         {
             this.projectComboBoxItems = new Dictionary<Profile, ComboBoxItem>();
             this.profiles = new Dictionary<string, Profile>();
+            this.consoleManagers = new Dictionary<string, ConsoleManager>();
             this.settingsManager = new SettingsManager();
             this.applicationContext = new ApplicationDataContext();
             this.applicationContext.activeProject = false;
@@ -85,15 +88,16 @@ namespace SymfosysCMD
             this.startupUserControl = new StartupUserControl();
             this.startupTab.Content = this.startupUserControl;
             this.swapStartupTabs();
+            StatusBarControl.php_version.Text = "PHP Version: " + this.commandConsole.phpVersion;
 
-            php_version.Text = "PHP Version: " + this.commandConsole.phpVersion;
-            
             //Event handlers
-            selectedProjectComboBox.SelectionChanged += new SelectionChangedEventHandler(selectedProjectChanged);
+            StatusBarControl.selectedProjectComboBox.SelectionChanged += new SelectionChangedEventHandler(selectedProjectChanged);
         }
+
 
         public void swapStartupTabs()
         {
+            this.consoleTabControl.Items.Clear();
             if (this.activeProfile != null)
             {
                 this.syncProfileWithDataContext();
@@ -103,6 +107,13 @@ namespace SymfosysCMD
                     this.consoleTabControl.Items.Remove(this.projectInformationTab);
                 this.consoleTabControl.Items.Add(this.projectInformationTab);
                 this.projectInformationTab.Focus();
+                if (this.consoleManagers.ContainsKey(this.activeProfileName))
+                {
+                    foreach (KeyValuePair<string, SymfosysConsole> console in this.consoleManagers[this.activeProfileName].consoles)
+                    {
+                        this.consoleTabControl.Items.Add(console.Value.tab);
+                    }
+                }
             }
             else
             {
@@ -137,15 +148,6 @@ namespace SymfosysCMD
                 themeType = "Dark";
             this.settingsManager.setSettingsTheme(themeType);
             this.ChangeTaskbar(themeType);
-            string activeProfileName = this.settingsManager.getSettingsActiveProfile();
-            if (activeProfileName != null)
-            {
-                //Profile activeProfile = this.settingsManager.getSettingsProfile(activeProfileName);
-                //foreach (KeyValuePair<int, SymfosysConsole> item in activeProfile.getSymfosysConsoles())
-                //{
-                //    item.Value.tab.changeTheme();
-                //}
-            }
         }
 
 
@@ -153,6 +155,17 @@ namespace SymfosysCMD
         {
             this.newProjectWindow = new NewProjectWindow(this);
             this.newProjectWindow.Owner = this;
+            if (this.IsDark)
+            {
+                this.newProjectWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
+                this.newProjectWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
+            }
+            else
+            {
+                this.newProjectWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
+                this.newProjectWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
+            }
+            
             this.newProjectWindow.ShowDialog();
         }
 
@@ -160,18 +173,28 @@ namespace SymfosysCMD
         {
             this.projectPreferencesWindow = new ProjectPreferences(this);
             this.projectPreferencesWindow.Owner = this;
+            if (this.IsDark)
+            {
+                this.projectPreferencesWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
+                this.projectPreferencesWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
+            }
+            else
+            {
+                this.projectPreferencesWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
+                this.projectPreferencesWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
+            }
             this.projectPreferencesWindow.ShowDialog();
         }
 
         private void selectedProjectChanged(object sender, SelectionChangedEventArgs e)
         {
-            Profile selectedProfile = (Profile)selectedProjectComboBox.SelectedItem;
+            Profile selectedProfile = (Profile)StatusBarControl.selectedProjectComboBox.SelectedItem;
             if (selectedProfile != null)
             {
                 string newProfileName = selectedProfile.ToString();
                 if (newProfileName == "None")
                 {
-                    this.settingsManager.setSettingsActiveProfile("");
+                    this.settingsManager.setSettingsActiveProfile("None");
                     this.applicationContext.activeProject = false;
                     this.applicationContext.SymfonyInstalled = false;
                     this.applicationContext.SymfonyVersionFound = false;
@@ -213,13 +236,30 @@ namespace SymfosysCMD
             this.profiles = this.settingsManager.getSettingsProfiles();
             
             this.activeProfileName = this.settingsManager.getSettingsActiveProfile();
-            if(!string.IsNullOrEmpty(this.activeProfileName))
+            if(!string.IsNullOrEmpty(this.activeProfileName) && this.activeProfileName != "None")
             {
                 this.activeProfile = this.settingsManager.getSettingsProfile(this.activeProfileName);
                 this.applicationContext.activeProject = true;
                 this.syncProfileWithDataContext();
                 this.commandConsole.initSymfony();
+                //we need to create a ConsoleManager for this profile if it does not already exists
+                if(!this.consoleManagers.ContainsKey(this.activeProfileName))
+                {
+                    ConsoleManager consoleManager = new ConsoleManager();
+                    this.consoleManagers.Add(this.activeProfileName, consoleManager);
+                }
+                //we need to loop through the profiles datatabs to add console tabs to the console manager
+                foreach(KeyValuePair<string, DataTab>dataTab in this.activeProfile.tabs)
+                {
+                    SymfosysConsole symfosysConsole = new SymfosysConsole(this,dataTab.Value.tabName, dataTab.Value.tabIndex, dataTab.Value.command);
+                    this.consoleManagers[this.activeProfileName].AddConsole(dataTab.Value.tabIndex, symfosysConsole);
+                }
                 
+            }
+            else
+            {
+                this.applicationContext.activeProject = false;
+                this.syncProfileWithDataContext(true);
             }
             if(this.profiles != null)
             {
@@ -229,13 +269,13 @@ namespace SymfosysCMD
                 profileList.Add(tmpProfile);
                 foreach (KeyValuePair<string, Profile> profile in this.profiles)
                 {
-                        tmpProfile = this.settingsManager.getSettingsProfile(profile.Value.getName());
-                        profileList.Add(tmpProfile);
+                    tmpProfile = this.settingsManager.getSettingsProfile(profile.Value.getName());
+                    profileList.Add(tmpProfile);
                 }
                 this.applicationContext.Profiles = new CollectionView(profileList);
                 this.applicationContext.Profile = this.activeProfileName;
-                selectedProjectComboBox.ItemsSource = this.applicationContext.Profiles;
-                selectedProjectComboBox.Text = this.activeProfileName;
+                StatusBarControl.selectedProjectComboBox.ItemsSource = this.applicationContext.Profiles;
+                    StatusBarControl.selectedProjectComboBox.Text = this.activeProfileName;
             }
             else
             {

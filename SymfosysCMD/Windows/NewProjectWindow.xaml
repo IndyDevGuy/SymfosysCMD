@@ -5,14 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SymfosysCMD"
         xmlns:controls="clr-namespace:SymfosysCMD.Controls"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:MyNamespace="clr-namespace:SymfosysCMD.Windows"
         mc:Ignorable="d" Height="200" Width="275"
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" 
         Title="New Symfony Project" Icon="symfony.png" 
         MinWidth="275" MinHeight="200" ResizeMode="NoResize" 
         HorizontalAlignment="Center" VerticalAlignment="Center"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" BorderBrush="DarkGreen">
     <adonisControls:AdonisWindow.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
     </adonisControls:AdonisWindow.Style>

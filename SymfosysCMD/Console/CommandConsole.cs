@@ -1,11 +1,12 @@
 ﻿using SymfosysCMD.Framework;
+using SymfosysCMD.Windows;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using static SymfosysCMD.Framework.ProcessAsyncHelper;
 
-namespace SymfosysCMD
+namespace SymfosysCMD.Console
 {
     public class CommandConsole
     {

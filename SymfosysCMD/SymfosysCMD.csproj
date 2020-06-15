@@ -81,12 +81,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Console\ConsoleManager.cs" />
+    <Compile Include="Controls\MainMenuControl.xaml.cs">
+      <DependentUpon>MainMenuControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProjectConsoleTabControl.xaml.cs">
+      <DependentUpon>ProjectConsoleTabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ProjectInformationControl.xaml.cs">
       <DependentUpon>ProjectInformationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RichTextBoxHelper.cs" />
+    <Compile Include="Controls\StatusBarControl.xaml.cs">
+      <DependentUpon>StatusBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SymfonyVersionControl.xaml.cs">
       <DependentUpon>SymfonyVersionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TaskbarControl.xaml.cs">
+      <DependentUpon>TaskbarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\DataTab.cs" />
     <Compile Include="Framework\ProcessAsyncHelper.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Controls\ProjectFormControl.xaml.cs">
@@ -98,7 +113,7 @@
     <Compile Include="DataContext\ApplicationDataContext.cs" />
     <Compile Include="DataContext\ProjectFormDataContext.cs" />
     <Compile Include="FolderDialog\FolderDialogBehavior.cs" />
-    <Compile Include="CommandConsole.cs" />
+    <Compile Include="Console\CommandConsole.cs" />
     <Compile Include="Commands\CustomCommands.cs" />
     <Compile Include="FolderDialog\MainViewModel.cs" />
     <Compile Include="Framework\ViewModel.cs" />
@@ -106,13 +121,21 @@
       <DependentUpon>NewProjectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsManager.cs" />
-    <Compile Include="SymfosysConsole.cs" />
+    <Compile Include="Console\SymfosysConsole.cs" />
     <Compile Include="Validation\EmptyStringValidationRule.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Windows\ProjectPreferences.xaml.cs">
       <DependentUpon>ProjectPreferences.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\CloseableHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MainMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProjectConsoleTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,11 +151,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\StatusBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SymfonyVersionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Controls\TaskbarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -144,7 +175,7 @@
       <DependentUpon>CloseableHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CloseableTab.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -190,7 +221,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Profile.cs" />
+    <Compile Include="Framework\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -216,15 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="symfony.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="symfony.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Windows\symfony.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Windows\symfony.png" />

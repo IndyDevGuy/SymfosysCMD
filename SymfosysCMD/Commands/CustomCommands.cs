@@ -59,5 +59,6 @@ namespace SymfosysCMD.Commands
 				new KeyGesture(Key.S, ModifierKeys.Control)
 			}
 		);
+
 	}
 }

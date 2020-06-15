@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SymfosysCMD.Framework;
+using System.Collections.Generic;
 
 namespace SymfosysCMD.Settings
 {

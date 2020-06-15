@@ -28,7 +28,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <Separator Grid.Column="1" Grid.Row="0" Margin="0,0,0,0" VerticalAlignment="Stretch" />
         <Label Grid.Column="1" Grid.Row="2" Content="Project Name"/>
         <TextBox Grid.Column="1" Grid.Row="3" Margin="0,5,0,0" adonisExtensions:ValidationExtension.IsErrorMessageVisibleOnFocus="True"
          adonisExtensions:ValidationExtension.IsErrorMessageVisibleOnMouseOver="True" Name="projectName"

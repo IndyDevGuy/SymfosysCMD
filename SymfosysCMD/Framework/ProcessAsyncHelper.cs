@@ -52,7 +52,8 @@ namespace SymfosysCMD.Framework
                         }
                         else
                         {
-                            stdOutBuilder.Append(e.Data);
+                            //stdOutBuilder.Append(e.Data);
+                            stdOutBuilder.AppendLine(e.Data);
                         }
                     };
 

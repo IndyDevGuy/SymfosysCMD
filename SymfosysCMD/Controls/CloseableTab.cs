@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using SymfosysCMD.Framework;
+using SymfosysCMD.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,14 +9,16 @@ namespace SymfosysCMD.Controls
 {
     public class CloseableTab: TabItem
     {
-        public int consoleIndex;
-        public string profileIndex;
+        public string profileName;
         private MainWindow mainWindow;
-        public CloseableTab(MainWindow mainWindow,string profileIndex, int consoleIndex)
+        private string tabName;
+        private string tabIndex;
+        public CloseableTab(MainWindow mainWindow, string profileName, string tabName, string tabIndex)
         {
+            this.tabIndex = tabIndex;
+            this.tabName = tabName;
             this.mainWindow = mainWindow;
-            this.profileIndex = profileIndex;
-            this.consoleIndex = consoleIndex;
+            this.profileName = profileName;
             //create a instance of the user control
             CloseableHeader closeableHeader = new CloseableHeader();
             //assign the usercontrol to the tab header
@@ -31,6 +35,7 @@ namespace SymfosysCMD.Controls
         void button_close_MouseEnter(object sender, MouseEventArgs e)
         {
             ((CloseableHeader)this.Header).button_close.Foreground = Brushes.Red;
+            ((CloseableHeader)this.Header).button_close.BorderBrush = Brushes.Transparent;
         }
         // Button MouseLeave - When mouse is no longer over button - change color back to black
         void button_close_MouseLeave(object sender, MouseEventArgs e)
@@ -41,10 +46,9 @@ namespace SymfosysCMD.Controls
         // an event indicating a "CloseTab" event has occurred)
         void button_close_Click(object sender, RoutedEventArgs e)
         {
-            Profile profile;
-            bool foundProfile = this.mainWindow.profiles.TryGetValue(this.profileIndex, out profile);
-            //if(foundProfile)
-                //profile.removeSymfosysConsole(this.consoleIndex);
+            this.mainWindow.consoleManagers[this.profileName].RemoveConsole(this.tabIndex);
+            this.mainWindow.activeProfile.removeTab(this.tabIndex);
+            this.mainWindow.settingsManager.updateSettingsProfile(this.mainWindow.activeProfile, this.mainWindow.activeProfileName);
             ((TabControl)this.Parent).Items.Remove(this);
         }
         // Label SizeChanged - When the Size of the Label changes

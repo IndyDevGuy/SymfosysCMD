@@ -9,13 +9,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Column="1" Grid.Row="0" Content="X" HorizontalAlignment="Right" Name="button_close" VerticalAlignment="Top" FontWeight="Bold" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontStretch="Normal" Visibility="Visible" FontSize="12" Padding="0" ToolTip="Close"/>
+        <Button Grid.Column="2" Grid.Row="0" Content="X" HorizontalAlignment="Right" Name="button_close" VerticalAlignment="Top" FontWeight="Bold" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" FontStretch="Normal" Visibility="Visible" FontSize="12" Padding="0" ToolTip="Close"/>
         
         <Label Grid.Column="0" Grid.Row="0" Content="TabItem" FontStretch="Normal" FontWeight="Normal"  FontStyle="Normal" HorizontalAlignment="Left" Margin="0,0,0,0" Name="label_TabTitle" VerticalAlignment="Top" />
 

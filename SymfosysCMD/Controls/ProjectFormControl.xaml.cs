@@ -1,6 +1,8 @@
 ﻿using AdonisUI.Controls;
 using SymfosysCMD.DataContext;
+using SymfosysCMD.Framework;
 using SymfosysCMD.Validation;
+using SymfosysCMD.Windows;
 using System;
 using System.Windows;
 using System.Windows.Controls;

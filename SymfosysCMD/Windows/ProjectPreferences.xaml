@@ -11,7 +11,7 @@
         Title="Project Preferences" Icon="symfony.png" 
         MinWidth="275" MinHeight="200" ResizeMode="NoResize" 
         HorizontalAlignment="Center" VerticalAlignment="Center"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" BorderBrush="DarkGreen">
     <adonisControls:AdonisWindow.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
     </adonisControls:AdonisWindow.Style>
