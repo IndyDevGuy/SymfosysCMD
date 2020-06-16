@@ -1,7 +1,6 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -12,6 +11,11 @@ using System.Windows.Data;
 using System.Windows.Media;
 using SymfosysCMD.Console;
 using SymfosysCMD.Framework;
+using AutoUpdaterDotNET;
+using System;
+using System.Windows;
+using Newtonsoft.Json;
+using SymfosysCMD.Windows.Update;
 
 namespace SymfosysCMD.Windows
 {
@@ -90,8 +94,19 @@ namespace SymfosysCMD.Windows
             this.swapStartupTabs();
             StatusBarControl.php_version.Text = "PHP Version: " + this.commandConsole.phpVersion;
 
+            //AutoUpdater
+            AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+            AutoUpdater.ReportErrors = true;
+            AutoUpdater.HttpUserAgent = "SymfosysCMD";
+            AutoUpdater.Synchronous = false;
+            AutoUpdater.Mandatory = true;
+            AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+
             //Event handlers
             StatusBarControl.selectedProjectComboBox.SelectionChanged += new SelectionChangedEventHandler(selectedProjectChanged);
+            
+            
         }
 
 
@@ -188,6 +203,7 @@ namespace SymfosysCMD.Windows
 
         private void selectedProjectChanged(object sender, SelectionChangedEventArgs e)
         {
+            AutoUpdater.Start("https://indydevguy.com/downloads/SymfosysCMD/updates/SymfosysCMD.json");
             Profile selectedProfile = (Profile)StatusBarControl.selectedProjectComboBox.SelectedItem;
             if (selectedProfile != null)
             {
@@ -350,6 +366,140 @@ namespace SymfosysCMD.Windows
         private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args != null)
+            {   
+                if (args.IsUpdateAvailable)
+                {
+                    AdonisUI.Controls.MessageBoxResult messageBoxResult;
+                    if (args.Mandatory.Value)
+                    {
+                        var messageBox = new MessageBoxModel
+                        {
+                            Text = $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. This is required update. Press Ok to begin updating the application.",
+                            Caption = "Update Available",
+                            Icon = AdonisUI.Controls.MessageBoxImage.Information,
+                            Buttons = new[]
+                            {
+                                MessageBoxButtons.Ok("Okay"),
+                            },
+                            IsSoundEnabled = false,
+                        };
+                        messageBoxResult = AdonisUI.Controls.MessageBox.Show(messageBox);
+                    }
+                    else
+                    {
+                        string text = $@"There is new version {args.CurrentVersion} available.";
+                        text += Environment.NewLine;
+                        text += $@"You are using version {args.InstalledVersion}";
+                        text += Environment.NewLine;
+                        text += "Do you want to update to the latest version?";
+                        text += Environment.NewLine;
+                        text += $@"View Changelog @ {args.ChangelogURL}";
+                        var messageBox = new MessageBoxModel
+                        {
+                            Text = text,
+                            Caption = $@"SymfosysCMD {args.CurrentVersion} is available!",
+                            Icon = AdonisUI.Controls.MessageBoxImage.Information,
+                            Buttons = MessageBoxButtons.YesNo("Yes", "No"),
+                            IsSoundEnabled = false,
+                        };
+                        
+                        OptionalUpdateWindow optionalUpdateWindow = new OptionalUpdateWindow(this,args);
+                        optionalUpdateWindow.Owner = this;
+                        if (this.IsDark)
+                        {
+                            optionalUpdateWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
+                            optionalUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
+                        }
+                        else
+                        {
+                            optionalUpdateWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
+                            optionalUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
+                        }
+                        optionalUpdateWindow.Show();
+                        messageBoxResult = AdonisUI.Controls.MessageBox.Show(messageBox);
+                    }
+
+                    // Uncomment the following line if you want to show standard update dialog instead.
+                    //AutoUpdater.ShowUpdateForm(args);
+
+                    if (messageBoxResult.Equals(AdonisUI.Controls.MessageBoxResult.Yes) || messageBoxResult.Equals(AdonisUI.Controls.MessageBoxResult.OK))
+                    {
+                        try
+                        {
+                            if (AutoUpdater.DownloadUpdate(args))
+                            {
+                                Application.Current.Shutdown();
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            var messageBox = new MessageBoxModel
+                            {
+                                Text = exception.Message,
+                                Caption = exception.GetType().ToString(),
+                                Icon = AdonisUI.Controls.MessageBoxImage.Error,
+                                Buttons = new[]
+                                {
+                                    MessageBoxButtons.Ok("Okay"),
+                                },
+                                IsSoundEnabled = false,
+                            };
+                            AdonisUI.Controls.MessageBox.Show(messageBox);
+                        }
+                    }
+                }
+                else
+                {
+                    var messageBox = new MessageBoxModel
+                    {
+                        Text = "There is no update available please try again later.",
+                        Caption = "No update available",
+                        Icon = AdonisUI.Controls.MessageBoxImage.Information,
+                        Buttons = new[]
+                        {
+                            MessageBoxButtons.Ok("Okay"),
+                        },
+                        IsSoundEnabled = false,
+                    };
+                    AdonisUI.Controls.MessageBox.Show(messageBox);
+                }
+            }
+            else
+            {
+                var messageBox = new MessageBoxModel
+                {
+                    Text = "There is a problem reaching update server. Please check your internet connection and try again.",
+                    Caption = "Update check failed",
+                    Icon = AdonisUI.Controls.MessageBoxImage.Information,
+                    Buttons = new[]
+                    {
+                        MessageBoxButtons.Ok("Okay"),
+                    },
+                    IsSoundEnabled = false,
+                };
+                AdonisUI.Controls.MessageBox.Show(messageBox);
+            }
+        }
+        private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
+        {
+            dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
+            args.UpdateInfo = new UpdateInfoEventArgs
+            {
+                CurrentVersion = json.version,
+                ChangelogURL = json.changelog,
+                DownloadURL = json.url,
+                Mandatory = new Mandatory
+                {
+                    Value = json.mandatory.value,
+                    UpdateMode = json.mandatory.mode,
+                    MinimumVersion = json.mandatory.minVersion
+                }
+            };
         }
 
     }
