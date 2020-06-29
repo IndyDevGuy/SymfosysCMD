@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" 
+           Name="SymfosysCMD" 
+           Language="1033" 
+           Version="1.0.0.1" 
+           Manufacturer="IndyDevGuy" 
+           UpgradeCode="{35A9AFB4-1F69-49B5-A665-025918916332}">
+    
+		<Package InstallerVersion="400" Compressed="yes" InstallScope="perMachine" />
+    
+    <Property Id="STARTMENUSHORTCUT" Value="0" />
+    <Property Id="DESKTOPSHORTCUT" Value="0" />
+    <Property Id="STARTPROGRAM" Value="0" />
+    <CustomAction Id="EXECUTE_AFTER_FINALIZE" FileKey="MainExecutable" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+
+    <InstallExecuteSequence>
+      <Custom Action="EXECUTE_AFTER_FINALIZE" After="InstallFinalize">NOT Installed AND STARTPROGRAM</Custom>
+    </InstallExecuteSequence>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="icon.ico" SourceFile="$(var.SymfosysCMD.ProjectDir)symfony.ico"/>
+
+    <Feature Id="ProductFeature" Title="SymfosysCMD" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="StartMenuShortcut" />
+      <ComponentRef Id="DesktopShortcut" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="SymfosysCMD" />
+			</Directory>
+      
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsMenuFolder" Name="SymfosysCMD"/>
+      </Directory>
+
+      <Directory Id="DesktopFolder">
+        <Directory Id="ApplicationDesktopFolder" Name="SymfosysCMD"/>
+      </Directory>
+      
+		</Directory>
+    
+    <DirectoryRef Id="ApplicationProgramsMenuFolder">
+      <Component Id="StartMenuShortcut" Guid="*">
+        <Condition>STARTMENUSHORTCUT</Condition>
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="SymfosysCMD"
+                  Description="Call symfony commands with a ui!"
+                  Target="[#MainExecutable]"
+                  WorkingDirectory="ApplicationProgramsFolder" 
+                  Icon="icon.ico"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsMenuFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\IndyDevGuy\SymfosysCMD" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationDesktopFolder">
+      <Component Id="DesktopShortcut" Guid="*">
+        <Condition>DESKTOPSHORTCUT</Condition>
+        <RemoveFolder Id="CleanUpDesktopShortCut" Directory="ApplicationDesktopFolder" On="uninstall"/>
+        <RegistryKey Root="HKCU" Key="Software\IndyDevGuy\SymfosysCMD" Action="createAndRemoveOnUninstall">
+          <RegistryValue Name="DesktopShortcut" Value="1" Type="integer" KeyPath="yes" />
+        </RegistryKey>
+        <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="SymfosysCMD" Target="[#MainExecutable]" Icon="icon.ico"/>
+      </Component>
+    </DirectoryRef>
+    
+	</Fragment>
+  
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+     
+      <Component Id="MainExecutable" Guid="*">
+        <File Id="MainExecutable" Source="$(var.SymfosysCMD.TargetPath)" KeyPath='yes' />
+      </Component>
+
+      <Component Id="AdonisUi.ClassicTheme.dll" Guid="*">
+        <File Id='AdonisUi.ClassicTheme.dll' Source="$(var.SymfosysCMD.TargetDir)AdonisUi.ClassicTheme.dll" />
+      </Component>
+
+      <Component Id="AdonisUi.ClassicTheme.XML" Guid="*">
+        <File Id='AdonisUi.ClassicTheme.xml' Source="$(var.SymfosysCMD.TargetDir)AdonisUi.ClassicTheme.xml" />
+      </Component>
+
+      <Component Id="AdonisUi.dll" Guid="*">
+        <File Id='AdonisUi.dll' Source="$(var.SymfosysCMD.TargetDir)AdonisUi.dll" />
+      </Component>
+
+      <Component Id="AdonisUi.xml" Guid="*">
+        <File Id='AdonisUi.xml' Source="$(var.SymfosysCMD.TargetDir)AdonisUi.xml" />
+      </Component>
+
+      <Component Id="AutoUpdater.NET.dll" Guid="*">
+        <File Id='AutoUpdater.NET.dll' Source="$(var.SymfosysCMD.TargetDir)AutoUpdater.NET.dll" />
+      </Component>
+
+      <Component Id="AutoUpdater.NET.pdb" Guid="*">
+        <File Id='AutoUpdater.NET.pdb' Source="$(var.SymfosysCMD.TargetDir)AutoUpdater.NET.pdb" />
+      </Component>
+
+      <Component Id="AutoUpdater.NET.xml" Guid="*">
+        <File Id='AutoUpdater.NET.xml' Source="$(var.SymfosysCMD.TargetDir)AutoUpdater.NET.xml" />
+      </Component>
+
+      <Component Id="MaterialDesignColors.dll" Guid="*">
+        <File Id='MaterialDesignColors.dll' Source="$(var.SymfosysCMD.TargetDir)MaterialDesignColors.dll" />
+      </Component>
+
+      <Component Id="MaterialDesignColors.pdb" Guid="*">
+        <File Id='MaterialDesignColors.pdb' Source="$(var.SymfosysCMD.TargetDir)MaterialDesignColors.pdb" />
+      </Component>
+
+      <Component Id="MaterialDesignThemes.Wpf.dll" Guid="*">
+        <File Id='MaterialDesignThemes.Wpf.dll' Source="$(var.SymfosysCMD.TargetDir)MaterialDesignThemes.Wpf.dll" />
+      </Component>
+
+      <Component Id="MaterialDesignThemes.Wpf.pdb" Guid="*">
+        <File Id='MaterialDesignThemes.Wpf.pdb' Source="$(var.SymfosysCMD.TargetDir)MaterialDesignThemes.Wpf.pdb" />
+      </Component>
+
+      <Component Id="MaterialDesignThemes.Wpf.xml" Guid="*">
+        <File Id='MaterialDesignThemes.Wpf.xml' Source="$(var.SymfosysCMD.TargetDir)MaterialDesignThemes.Wpf.xml" />
+      </Component>
+
+      <Component Id="Microsoft.Expression.Interactions.dll" Guid="*">
+        <File Id='Microsoft.Expression.Interactions.dll' Source="$(var.SymfosysCMD.TargetDir)Microsoft.Expression.Interactions.dll" />
+      </Component>
+
+      <Component Id="Microsoft.Expression.Interactions.xml" Guid="*">
+        <File Id='Microsoft.Expression.Interactions.xml' Source="$(var.SymfosysCMD.TargetDir)Microsoft.Expression.Interactions.xml" />
+      </Component>
+
+      <Component Id="Newtonsoft.Json.dll" Guid="*">
+        <File Id='Newtonsoft.Json.dll' Source="$(var.SymfosysCMD.TargetDir)Newtonsoft.Json.dll" />
+      </Component>
+
+      <Component Id="Newtonsoft.Json.xml" Guid="*">
+        <File Id='Newtonsoft.Json.xml' Source="$(var.SymfosysCMD.TargetDir)Newtonsoft.Json.xml" />
+      </Component>
+
+      <Component Id="SymfosysCMD.Config" Guid="*">
+        <File Id='SymfosysCMD.exe.config' Source="$(var.SymfosysCMD.TargetDir)SymfosysCMD.exe.config" />
+      </Component>
+
+      <Component Id="SymfosysCMD.pdb" Guid="*">
+        <File Id='SymfosysCMD.pdb' Source="$(var.SymfosysCMD.TargetDir)SymfosysCMD.pdb" />
+      </Component>
+
+      <Component Id="System.Windows.Interactivity.dll" Guid="*">
+        <File Id='System.Windows.Interactivity.dll' Source="$(var.SymfosysCMD.TargetDir)System.Windows.Interactivity.dll" />
+      </Component>
+
+      <Component Id="System.Windows.Interactivity.xml" Guid="*">
+        <File Id='System.Windows.Interactivity.xml' Source="$(var.SymfosysCMD.TargetDir)System.Windows.Interactivity.xml" />
+      </Component>
+      
+		</ComponentGroup>
+	</Fragment>
+</Wix>

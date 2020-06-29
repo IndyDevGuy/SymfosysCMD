@@ -5,16 +5,48 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymfosysCMD", "SymfosysCMD.csproj", "{EF462019-D61C-40CC-886B-2EC848E5DA0F}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "InstallerMSI", "..\Installer\InstallerMSI.wixproj", "{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallerUI", "..\InstallerUI\InstallerUI.csproj", "{79446119-2CA1-499E-AA7B-CDD380CD2417}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SymfosysCMDSetup", "..\SymfosysCMDSetup\SymfosysCMDSetup.wixproj", "{78A53452-5DC9-4510-B89C-0711274F408B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Debug|x86.Build.0 = Debug|Any CPU
 		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF462019-D61C-40CC-886B-2EC848E5DA0F}.Release|x86.Build.0 = Release|Any CPU
+		{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}.Debug|x86.ActiveCfg = Debug|x86
+		{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}.Debug|x86.Build.0 = Debug|x86
+		{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}.Release|Any CPU.ActiveCfg = Release|x86
+		{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}.Release|x86.ActiveCfg = Release|x86
+		{32997DC6-2536-42DB-A1DB-1ECE62BE09CE}.Release|x86.Build.0 = Release|x86
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Debug|x86.Build.0 = Debug|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Release|x86.ActiveCfg = Release|Any CPU
+		{79446119-2CA1-499E-AA7B-CDD380CD2417}.Release|x86.Build.0 = Release|Any CPU
+		{78A53452-5DC9-4510-B89C-0711274F408B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{78A53452-5DC9-4510-B89C-0711274F408B}.Debug|x86.ActiveCfg = Debug|x86
+		{78A53452-5DC9-4510-B89C-0711274F408B}.Debug|x86.Build.0 = Debug|x86
+		{78A53452-5DC9-4510-B89C-0711274F408B}.Release|Any CPU.ActiveCfg = Release|x86
+		{78A53452-5DC9-4510-B89C-0711274F408B}.Release|x86.ActiveCfg = Release|x86
+		{78A53452-5DC9-4510-B89C-0711274F408B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

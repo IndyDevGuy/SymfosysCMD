@@ -59,6 +59,7 @@ namespace SymfosysCMD.Windows
 
         public MainWindow()
         {
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.projectComboBoxItems = new Dictionary<Profile, ComboBoxItem>();
             this.profiles = new Dictionary<string, Profile>();
             this.consoleManagers = new Dictionary<string, ConsoleManager>();
