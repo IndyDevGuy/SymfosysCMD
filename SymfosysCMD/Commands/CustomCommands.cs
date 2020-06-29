@@ -39,6 +39,16 @@ namespace SymfosysCMD.Commands
 				new KeyGesture(Key.N, ModifierKeys.Control)
 			}
 		);
+		public static readonly RoutedUICommand Update = new RoutedUICommand
+		(
+			"Update",
+			"Update",
+			typeof(CustomCommands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.U, ModifierKeys.Control)
+			}
+		);
 		public static readonly RoutedCommand Open = new RoutedUICommand
 		(
 			"Open",

@@ -11,7 +11,8 @@
         mc:Ignorable="d" Height="550" Width="850" MinWidth="850" MinHeight="550"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" Icon="symfony.png"
+        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI" 
+        Icon="symfony.png"
         ShrinkTitleBarWhenMaximized="False" BorderBrush="DarkGreen">
     <adonisControls:AdonisWindow.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
@@ -19,6 +20,7 @@
     <adonisControls:AdonisWindow.CommandBindings>
         <CommandBinding Command="commands:CustomCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
         <CommandBinding Command="commands:CustomCommands.Preferences" CanExecute="PreferencesCommand_CanExecute" Executed="PreferencesCommand_Executed" />
+        <CommandBinding Command="commands:CustomCommands.Update" CanExecute="UpdateCommand_CanExecute" Executed="UpdateCommand_Executed" />
         <CommandBinding Command="commands:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
     </adonisControls:AdonisWindow.CommandBindings>
     <adonisControls:AdonisWindow.TitleBarContent>

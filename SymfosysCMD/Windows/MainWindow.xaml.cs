@@ -96,7 +96,8 @@ namespace SymfosysCMD.Windows
             StatusBarControl.php_version.Text = "PHP Version: " + this.commandConsole.phpVersion;
 
             //AutoUpdater
-            AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+            //AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+            AutoUpdater.RunUpdateAsAdmin = true;
             AutoUpdater.ReportErrors = true;
             AutoUpdater.HttpUserAgent = "SymfosysCMD";
             AutoUpdater.Synchronous = false;
@@ -204,7 +205,6 @@ namespace SymfosysCMD.Windows
 
         private void selectedProjectChanged(object sender, SelectionChangedEventArgs e)
         {
-            AutoUpdater.Start("https://indydevguy.com/downloads/SymfosysCMD/updates/SymfosysCMD.json");
             Profile selectedProfile = (Profile)StatusBarControl.selectedProjectComboBox.SelectedItem;
             if (selectedProfile != null)
             {
@@ -369,46 +369,40 @@ namespace SymfosysCMD.Windows
             Application.Current.Shutdown();
         }
 
+        private void UpdateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void UpdateCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AutoUpdater.Start("https://indydevguy.com/downloads/SymfosysCMD/updates/SymfosysCMD.json");
+        }
+
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         {
             if (args != null)
             {   
                 if (args.IsUpdateAvailable)
                 {
-                    AdonisUI.Controls.MessageBoxResult messageBoxResult;
                     if (args.Mandatory.Value)
                     {
-                        var messageBox = new MessageBoxModel
+                        MandatoryUpdateWindow mandatoryUpdateWindow = new MandatoryUpdateWindow(this, args);
+                        mandatoryUpdateWindow.Owner = this;
+                        if (this.IsDark)
                         {
-                            Text = $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. This is required update. Press Ok to begin updating the application.",
-                            Caption = "Update Available",
-                            Icon = AdonisUI.Controls.MessageBoxImage.Information,
-                            Buttons = new[]
-                            {
-                                MessageBoxButtons.Ok("Okay"),
-                            },
-                            IsSoundEnabled = false,
-                        };
-                        messageBoxResult = AdonisUI.Controls.MessageBox.Show(messageBox);
+                            mandatoryUpdateWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
+                            mandatoryUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
+                        }
+                        else
+                        {
+                            mandatoryUpdateWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
+                            mandatoryUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
+                        }
+                        mandatoryUpdateWindow.Show();
                     }
                     else
                     {
-                        string text = $@"There is new version {args.CurrentVersion} available.";
-                        text += Environment.NewLine;
-                        text += $@"You are using version {args.InstalledVersion}";
-                        text += Environment.NewLine;
-                        text += "Do you want to update to the latest version?";
-                        text += Environment.NewLine;
-                        text += $@"View Changelog @ {args.ChangelogURL}";
-                        var messageBox = new MessageBoxModel
-                        {
-                            Text = text,
-                            Caption = $@"SymfosysCMD {args.CurrentVersion} is available!",
-                            Icon = AdonisUI.Controls.MessageBoxImage.Information,
-                            Buttons = MessageBoxButtons.YesNo("Yes", "No"),
-                            IsSoundEnabled = false,
-                        };
-                        
                         OptionalUpdateWindow optionalUpdateWindow = new OptionalUpdateWindow(this,args);
                         optionalUpdateWindow.Owner = this;
                         if (this.IsDark)
@@ -422,37 +416,8 @@ namespace SymfosysCMD.Windows
                             optionalUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
                         }
                         optionalUpdateWindow.Show();
-                        messageBoxResult = AdonisUI.Controls.MessageBox.Show(messageBox);
                     }
 
-                    // Uncomment the following line if you want to show standard update dialog instead.
-                    //AutoUpdater.ShowUpdateForm(args);
-
-                    if (messageBoxResult.Equals(AdonisUI.Controls.MessageBoxResult.Yes) || messageBoxResult.Equals(AdonisUI.Controls.MessageBoxResult.OK))
-                    {
-                        try
-                        {
-                            if (AutoUpdater.DownloadUpdate(args))
-                            {
-                                Application.Current.Shutdown();
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            var messageBox = new MessageBoxModel
-                            {
-                                Text = exception.Message,
-                                Caption = exception.GetType().ToString(),
-                                Icon = AdonisUI.Controls.MessageBoxImage.Error,
-                                Buttons = new[]
-                                {
-                                    MessageBoxButtons.Ok("Okay"),
-                                },
-                                IsSoundEnabled = false,
-                            };
-                            AdonisUI.Controls.MessageBox.Show(messageBox);
-                        }
-                    }
                 }
                 else
                 {

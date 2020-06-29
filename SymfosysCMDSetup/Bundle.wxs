@@ -5,7 +5,7 @@
   
   <Bundle 
     Name="SymfosysCMD" 
-    Version="1.0.0.0" 
+    Version="1.0.0.6" 
     Manufacturer="IndyDevGuy" 
     UpgradeCode="{40DE94C5-A29D-4CC3-ABE6-0A3038F569A4}"
     DisableModify="yes"

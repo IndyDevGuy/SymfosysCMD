@@ -10,32 +10,29 @@ using System.Windows.Interop;
 namespace SymfosysCMD.Windows.Update
 {
     /// <summary>
-    /// Interaction logic for OptionalUpdateWindow.xaml
+    /// Interaction logic for MandatoryUpdateWindow.xaml
     /// </summary>
-    public partial class OptionalUpdateWindow : AdonisWindow
+    public partial class MandatoryUpdateWindow : AdonisWindow
     {
         private MainWindow mainWindow;
         public UpdateInfoEventArgs updateInfo;
-        public OptionalUpdateWindow(MainWindow mainWindow, UpdateInfoEventArgs updateInfoEventArgs)
+        public MandatoryUpdateWindow(MainWindow mainWindow, UpdateInfoEventArgs updateInfoEventArgs)
         {
             this.updateInfo = updateInfoEventArgs;
             this.mainWindow = mainWindow;
             InitializeComponent();
             this.SourceInitialized += Window1_SourceInitialized;
-            string updateVersionString = "SymfosysCMD v"+this.updateInfo.CurrentVersion+" is ready to be installed";
-            string currentVersionString = "The current installed version is v"+this.updateInfo.InstalledVersion.ToString();
+            string updateVersionString = "SymfosysCMD v" + this.updateInfo.CurrentVersion + " is ready to be installed";
+            string currentVersionString = "The current installed version is v" + this.updateInfo.InstalledVersion.ToString();
+            string updateOptionText = "This update is required. Press Ok to begin updating the application.";
             updateControlInformation.CurrentVersionText.Text = currentVersionString;
             updateControlInformation.UpdateVersionText.Text = updateVersionString;
+            updateControlInformation.UpdateOptionText.Text = updateOptionText;
+            //populate the changelog
             HttpClient client = new HttpClient();
             string text = client.GetStringAsync(this.updateInfo.ChangelogURL).Result;
             MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(text));
             updateControlInformation.UpdateChangelog.Selection.Load(stream, DataFormats.Rtf);
-        }
-
-        public void Close(object sender, RoutedEventArgs e)
-        {
-            this.mainWindow.Focus();
-            this.Close();
         }
 
         public void RunUpdate(object sender, RoutedEventArgs e)
@@ -93,6 +90,5 @@ namespace SymfosysCMD.Windows.Update
             }
             return IntPtr.Zero;
         }
-
     }
 }
