@@ -60,9 +60,9 @@ namespace SymfosysCMD.Controls
 
                     this.mainWindow.settingsManager.setSettingsActiveProfile(this.profile.getName());
                     this.mainWindow.settingsManager.addSettingsProfile(this.profile);
-                    this.mainWindow.newProjectWindow.DialogResult = true;
+                    this.mainWindow.windowManager.newProjectWindow.DialogResult = true;
                     this.mainWindow.reloadProfiles();
-                    this.mainWindow.newProjectWindow.Close();
+                    this.mainWindow.windowManager.newProjectWindow.Close();
                 }
                 else
                 {
@@ -72,9 +72,9 @@ namespace SymfosysCMD.Controls
                     this.profile.setDocumentRoot(projectDirectory.Text);
                     this.mainWindow.settingsManager.setSettingsActiveProfile(this.profile.getName());
                     this.mainWindow.settingsManager.updateSettingsProfile(this.profile, originalProfileName);
-                    this.mainWindow.projectPreferencesWindow.DialogResult = true;
+                    this.mainWindow.windowManager.projectPreferencesWindow.DialogResult = true;
                     this.mainWindow.reloadProfiles();
-                    this.mainWindow.projectPreferencesWindow.Close();
+                    this.mainWindow.windowManager.projectPreferencesWindow.Close();
                 }
             }
         }

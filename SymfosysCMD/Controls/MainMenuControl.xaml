@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Column="0" Padding="5" Background="Transparent">
             <MenuItem x:Name="project_menu" Header="File" Style="{DynamicResource MenuItemParentGreenStyle}">
-                <MenuItem Header="New Project" Command="commands:CustomCommands.New" Style="{DynamicResource MenuItemSiblingGreenStyle}" >
+                <MenuItem Header="New Project" Command="{Binding NewProjectCommand}" Style="{DynamicResource MenuItemSiblingGreenStyle}" >
                     <MenuItem.Icon>
                         <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left"  Width="20" Height="20">
                             <Canvas  Margin="0,0,0,5" Width="20" Height="20">
@@ -24,7 +24,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Preferences" Command="commands:CustomCommands.Preferences" Style="{DynamicResource MenuItemSiblingGreenStyle}">
+                <MenuItem Header="Project Preferences" Command="{Binding ProjectPreferencesCommand}" Style="{DynamicResource MenuItemSiblingGreenStyle}">
                     <MenuItem.Icon>
                         <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left"  Width="20" Height="20">
                             <Canvas  Margin="0,0,0,5" Width="20" Height="20">
@@ -48,7 +48,7 @@
                     </MenuItem.Resources>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Check For Updates" Command="commands:CustomCommands.Update" Style="{DynamicResource MenuItemSiblingGreenStyle}" >
+                <MenuItem Header="Check For Updates" Command="{Binding UpdateCommand}" Style="{DynamicResource MenuItemSiblingGreenStyle}" >
                     <MenuItem.Icon>
                         <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left"  Width="20" Height="20">
                             <Canvas  Margin="0,0,0,5" Width="20" Height="20">
@@ -57,7 +57,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Close" Command="commands:CustomCommands.Exit" Padding="5" Style="{DynamicResource MenuItemSiblingGreenStyle}">
+                <MenuItem Header="Close" Command="{Binding ExitCommand}" Padding="5" Style="{DynamicResource MenuItemSiblingGreenStyle}">
                     <MenuItem.Icon>
                         <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" Height="20">
                             <Canvas Margin="0,0,0,5" Width="20" Height="20">

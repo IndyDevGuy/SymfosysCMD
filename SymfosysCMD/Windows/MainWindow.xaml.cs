@@ -1,21 +1,24 @@
-﻿using AdonisUI;
+﻿//Adonis UI
+using AdonisUI;
 using AdonisUI.Controls;
+//System
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows;
+//Autoupdater
+using AutoUpdaterDotNET;
+//newtonsoft json
+using Newtonsoft.Json;
+//Symfosys
 using SymfosysCMD.Controls;
 using SymfosysCMD.DataContext;
 using SymfosysCMD.Settings;
-using System.Windows.Data;
-using System.Windows.Media;
+using SymfosysCMD.Windows.Update;
 using SymfosysCMD.Console;
 using SymfosysCMD.Framework;
-using AutoUpdaterDotNET;
-using System;
-using System.Windows;
-using Newtonsoft.Json;
-using SymfosysCMD.Windows.Update;
 
 namespace SymfosysCMD.Windows
 {
@@ -24,9 +27,13 @@ namespace SymfosysCMD.Windows
     /// </summary>
     public partial class MainWindow : AdonisWindow 
     {
-        //windows
-        public NewProjectWindow newProjectWindow;
-        public ProjectPreferences projectPreferencesWindow;
+        //window manager
+        public WindowManager windowManager;
+        //Theme Manager
+        public ThemeManager themeManager;
+        //Update Manager
+        public UpdateManager updateManager;
+        
         public ApplicationDataContext applicationContext;
 
         public bool IsDark
@@ -38,7 +45,7 @@ namespace SymfosysCMD.Windows
 
         private static void OnIsDarkChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MainWindow)d).ChangeTheme((bool)e.OldValue);
+            ((MainWindow)d).themeManager.ChangeTheme((bool)e.OldValue);
         }
 
         public CommandConsole commandConsole;
@@ -60,19 +67,25 @@ namespace SymfosysCMD.Windows
         public MainWindow()
         {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            //window manager
+            this.windowManager = new WindowManager(this);
+            //Theme manager
+            this.themeManager = new ThemeManager(this);
+            //Update Manager
+            this.updateManager = new UpdateManager(this);
             this.projectComboBoxItems = new Dictionary<Profile, ComboBoxItem>();
             this.profiles = new Dictionary<string, Profile>();
             this.consoleManagers = new Dictionary<string, ConsoleManager>();
             this.settingsManager = new SettingsManager();
-            this.applicationContext = new ApplicationDataContext();
+            this.applicationContext = new ApplicationDataContext(this);
             this.applicationContext.activeProject = false;
+            
             string themeType = this.settingsManager.getSettingsTheme();
             
             if (themeType == "Dark")
                 this.IsDark = true;
             else
                 this.IsDark = false;
-            this.ChangeTaskbar(themeType);
             AdonisUI.SpaceExtension.SetSpaceResourceOwnerFallback(this);
             this.commandConsole = new CommandConsole();
             InitializeComponent();
@@ -95,22 +108,10 @@ namespace SymfosysCMD.Windows
             this.swapStartupTabs();
             StatusBarControl.php_version.Text = "PHP Version: " + this.commandConsole.phpVersion;
 
-            //AutoUpdater
-            //AutoUpdater.DownloadPath = Environment.CurrentDirectory;
-            AutoUpdater.RunUpdateAsAdmin = true;
-            AutoUpdater.ReportErrors = true;
-            AutoUpdater.HttpUserAgent = "SymfosysCMD";
-            AutoUpdater.Synchronous = false;
-            AutoUpdater.Mandatory = true;
-            AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
-            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-
             //Event handlers
             StatusBarControl.selectedProjectComboBox.SelectionChanged += new SelectionChangedEventHandler(selectedProjectChanged);
             
-            
         }
-
 
         public void swapStartupTabs()
         {
@@ -142,65 +143,6 @@ namespace SymfosysCMD.Windows
                 this.consoleTabControl.Items.Add(this.startupTab);
                 this.startupTab.Focus();
             }
-        }
-
-        private void ChangeTaskbar(string theme)
-        {
-            if (theme == "Dark")
-            {
-                TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
-                WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
-            }
-            else
-            {
-                TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
-                WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
-            }
-        }
-        private void ChangeTheme(bool oldValue)
-        {
-            ResourceLocator.SetColorScheme(Application.Current.Resources, oldValue ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
-            string themeType = "Light";
-            if (!oldValue)
-                themeType = "Dark";
-            this.settingsManager.setSettingsTheme(themeType);
-            this.ChangeTaskbar(themeType);
-        }
-
-
-        private void newProjectForm(object sender)
-        {
-            this.newProjectWindow = new NewProjectWindow(this);
-            this.newProjectWindow.Owner = this;
-            if (this.IsDark)
-            {
-                this.newProjectWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
-                this.newProjectWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
-            }
-            else
-            {
-                this.newProjectWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
-                this.newProjectWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
-            }
-            
-            this.newProjectWindow.ShowDialog();
-        }
-
-        private void projectPreferencesForm(object sender)
-        {
-            this.projectPreferencesWindow = new ProjectPreferences(this);
-            this.projectPreferencesWindow.Owner = this;
-            if (this.IsDark)
-            {
-                this.projectPreferencesWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
-                this.projectPreferencesWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
-            }
-            else
-            {
-                this.projectPreferencesWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
-                this.projectPreferencesWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
-            }
-            this.projectPreferencesWindow.ShowDialog();
         }
 
         private void selectedProjectChanged(object sender, SelectionChangedEventArgs e)
@@ -332,140 +274,6 @@ namespace SymfosysCMD.Windows
                 tabControl.Items.Remove(tabItemTarget);
                 tabControl.Items.Insert(sourceIndex, tabItemTarget);
             }
-        }
-
-        //Commands
-
-        private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.newProjectForm(sender);
-        }
-
-        private void PreferencesCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (this.applicationContext.activeProject)
-                e.CanExecute = true;
-            else
-                e.CanExecute = false;
-        }
-
-        private void PreferencesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.projectPreferencesForm(sender);
-        }
-
-        private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void UpdateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        private void UpdateCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            AutoUpdater.Start("https://indydevguy.com/downloads/SymfosysCMD/updates/SymfosysCMD.json");
-        }
-
-        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
-        {
-            if (args != null)
-            {   
-                if (args.IsUpdateAvailable)
-                {
-                    if (args.Mandatory.Value)
-                    {
-                        MandatoryUpdateWindow mandatoryUpdateWindow = new MandatoryUpdateWindow(this, args);
-                        mandatoryUpdateWindow.Owner = this;
-                        if (this.IsDark)
-                        {
-                            mandatoryUpdateWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
-                            mandatoryUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
-                        }
-                        else
-                        {
-                            mandatoryUpdateWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
-                            mandatoryUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
-                        }
-                        mandatoryUpdateWindow.Show();
-                    }
-                    else
-                    {
-                        OptionalUpdateWindow optionalUpdateWindow = new OptionalUpdateWindow(this,args);
-                        optionalUpdateWindow.Owner = this;
-                        if (this.IsDark)
-                        {
-                            optionalUpdateWindow.TitleBarBackground = (Brush)this.FindResource("BlackGlossBrush");
-                            optionalUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.AccentHighlightBrush);
-                        }
-                        else
-                        {
-                            optionalUpdateWindow.TitleBarBackground = (Brush)this.FindResource("WhiteGlossBrush");
-                            optionalUpdateWindow.WindowButtonHighlightBrush = (Brush)this.FindResource(AdonisUI.Brushes.Layer0BackgroundBrush);
-                        }
-                        optionalUpdateWindow.Show();
-                    }
-
-                }
-                else
-                {
-                    var messageBox = new MessageBoxModel
-                    {
-                        Text = "There is no update available please try again later.",
-                        Caption = "No update available",
-                        Icon = AdonisUI.Controls.MessageBoxImage.Information,
-                        Buttons = new[]
-                        {
-                            MessageBoxButtons.Ok("Okay"),
-                        },
-                        IsSoundEnabled = false,
-                    };
-                    AdonisUI.Controls.MessageBox.Show(messageBox);
-                }
-            }
-            else
-            {
-                var messageBox = new MessageBoxModel
-                {
-                    Text = "There is a problem reaching update server. Please check your internet connection and try again.",
-                    Caption = "Update check failed",
-                    Icon = AdonisUI.Controls.MessageBoxImage.Information,
-                    Buttons = new[]
-                    {
-                        MessageBoxButtons.Ok("Okay"),
-                    },
-                    IsSoundEnabled = false,
-                };
-                AdonisUI.Controls.MessageBox.Show(messageBox);
-            }
-        }
-        private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
-        {
-            dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
-            args.UpdateInfo = new UpdateInfoEventArgs
-            {
-                CurrentVersion = json.version,
-                ChangelogURL = json.changelog,
-                DownloadURL = json.url,
-                Mandatory = new Mandatory
-                {
-                    Value = json.mandatory.value,
-                    UpdateMode = json.mandatory.mode,
-                    MinimumVersion = json.mandatory.minVersion
-                }
-            };
         }
 
     }

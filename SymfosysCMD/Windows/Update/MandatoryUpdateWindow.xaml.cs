@@ -16,6 +16,7 @@ namespace SymfosysCMD.Windows.Update
     {
         private MainWindow mainWindow;
         public UpdateInfoEventArgs updateInfo;
+        public DownloadWindow downloadWindow;
         public MandatoryUpdateWindow(MainWindow mainWindow, UpdateInfoEventArgs updateInfoEventArgs)
         {
             this.updateInfo = updateInfoEventArgs;
@@ -39,10 +40,7 @@ namespace SymfosysCMD.Windows.Update
         {
             try
             {
-                if (AutoUpdater.DownloadUpdate(this.updateInfo))
-                {
-                    Application.Current.Shutdown();
-                }
+                this.mainWindow.windowManager.initDownloadWindow(this.updateInfo, this);
             }
             catch (Exception exception)
             {

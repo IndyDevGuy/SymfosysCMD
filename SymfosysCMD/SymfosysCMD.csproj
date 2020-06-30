@@ -51,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>symfony.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdonisUI, Version=1.15.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AdonisUI.1.15.0\lib\net45\AdonisUI.dll</HintPath>
@@ -99,6 +102,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\MandatoryBehavior.cs" />
+    <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\NewProjectCommand.cs" />
+    <Compile Include="Commands\ProjectPreferencesCommand.cs" />
+    <Compile Include="Commands\UpdateCommand.cs" />
     <Compile Include="Console\ConsoleManager.cs" />
     <Compile Include="Controls\MainMenuControl.xaml.cs">
       <DependentUpon>MainMenuControl.xaml</DependentUpon>
@@ -124,6 +132,9 @@
     </Compile>
     <Compile Include="Framework\DataTab.cs" />
     <Compile Include="Framework\ProcessAsyncHelper.cs" />
+    <Compile Include="Framework\ThemeManager.cs" />
+    <Compile Include="Framework\UpdateManager.cs" />
+    <Compile Include="Framework\WindowManager.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="Controls\ProjectFormControl.xaml.cs">
       <DependentUpon>ProjectFormControl.xaml</DependentUpon>
@@ -135,7 +146,6 @@
     <Compile Include="DataContext\ProjectFormDataContext.cs" />
     <Compile Include="FolderDialog\FolderDialogBehavior.cs" />
     <Compile Include="Console\CommandConsole.cs" />
-    <Compile Include="Commands\CustomCommands.cs" />
     <Compile Include="FolderDialog\MainViewModel.cs" />
     <Compile Include="Framework\ViewModel.cs" />
     <Compile Include="Windows\NewProjectWindow.xaml.cs">
@@ -147,6 +157,9 @@
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Windows\ProjectPreferences.xaml.cs">
       <DependentUpon>ProjectPreferences.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Update\DownloadWindow.xaml.cs">
+      <DependentUpon>DownloadWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Update\MandatoryUpdateWindow.xaml.cs">
       <DependentUpon>MandatoryUpdateWindow.xaml</DependentUpon>
@@ -251,6 +264,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ProjectPreferences.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Update\DownloadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

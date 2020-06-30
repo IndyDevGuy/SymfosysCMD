@@ -29,6 +29,7 @@ namespace SymfosysCMD.Controls
             closeableHeader.button_close.MouseLeave += new MouseEventHandler(button_close_MouseLeave);
             closeableHeader.button_close.Click += new RoutedEventHandler(button_close_Click);
             closeableHeader.label_TabTitle.SizeChanged += new SizeChangedEventHandler(label_TabTitle_SizeChanged);
+            changeTheme();
         }
 
         // Button MouseEnter - When the mouse is over the button - change color to Red
@@ -60,7 +61,7 @@ namespace SymfosysCMD.Controls
 
         public void changeTheme()
         {
-            ((CloseableHeader)this.Header).button_close.Foreground = this.mainWindow.IsDark ? Brushes.White : Brushes.Black;
+            ((CloseableHeader)this.Header).button_close.Foreground =  Brushes.White;
         }
         public string Title
         {

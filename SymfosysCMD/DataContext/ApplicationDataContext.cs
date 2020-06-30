@@ -1,16 +1,50 @@
-﻿using SymfosysCMD.Framework;
+﻿using SymfosysCMD.Commands;
+using SymfosysCMD.Framework;
+using SymfosysCMD.Windows;
 using System.Collections.Generic;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace SymfosysCMD.DataContext
 {
     public class ApplicationDataContext : ViewModel
     {
-        public ApplicationDataContext()
+        public MainWindow mainWindow;
+        public ApplicationDataContext(MainWindow mainWindow)
         {
             IList<Profile> list = new List<Profile>();
             _profiles = new CollectionView(list);
+            this.mainWindow = mainWindow;
+            this._updateCommand = new UpdateCommand(this);
+            this._newProjectCommand = new NewProjectCommand(this);
+            this._projectPreferencesCommand = new ProjectPreferencesCommand(this);
+            this._exitCommand = new ExitCommand(this);
         }
+        //Update Command
+        private UpdateCommand _updateCommand;
+        public ICommand UpdateCommand
+        {
+            get { return this._updateCommand; }
+        }
+        //New Project Command
+        private NewProjectCommand _newProjectCommand;
+        public ICommand NewProjectCommand
+        {
+            get { return this._newProjectCommand; }
+        }
+        //Project Preferences Command
+        private ProjectPreferencesCommand _projectPreferencesCommand;
+        public ICommand ProjectPreferencesCommand
+        {
+            get { return this._projectPreferencesCommand; }
+        }
+        //Exit Command
+        private ExitCommand _exitCommand;
+        public ICommand ExitCommand
+        {
+            get { return this._exitCommand; }
+        }
+        //Profiles collection
         private CollectionView _profiles;
         private string _profile;
 
