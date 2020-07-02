@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using SymfosysCMD.Console;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SymfosysCMD.Framework
 {
@@ -13,6 +16,8 @@ namespace SymfosysCMD.Framework
     /// </summary>
     public static class ProcessAsyncHelper
     {
+        public static Process currentProcess;
+        public static SymfosysConsole console;
         /// <summary>
         /// Run a process asynchronously
         /// <para>To capture STDOUT, set StartInfo.RedirectStandardOutput to TRUE</para>
@@ -27,6 +32,7 @@ namespace SymfosysCMD.Framework
 
             using (var process = new Process() { StartInfo = startInfo, EnableRaisingEvents = true })
             {
+                ProcessAsyncHelper.currentProcess = process;
                 // List of tasks to wait for a whole process exit
                 List<Task> processTasks = new List<Task>();
 
@@ -54,6 +60,13 @@ namespace SymfosysCMD.Framework
                         {
                             //stdOutBuilder.Append(e.Data);
                             stdOutBuilder.AppendLine(e.Data);
+                            Application.Current.Dispatcher.Invoke(new Action(() => {
+                                if (ProcessAsyncHelper.console != null)
+                                {
+                                    ProcessAsyncHelper.console.console.AppendText(e.Data);
+                                }
+                            }));
+                            
                         }
                     };
 
@@ -96,6 +109,7 @@ namespace SymfosysCMD.Framework
                     return result;
                 }
 
+                
                 // Reads the output stream first as needed and then waits because deadlocks are possible
                 if (process.StartInfo.RedirectStandardOutput)
                 {
@@ -136,6 +150,7 @@ namespace SymfosysCMD.Framework
                     // -> Timeout, let's kill the process
                     try
                     {
+                        ProcessAsyncHelper.currentProcess = null;
                         process.Kill();
                     }
                     catch
@@ -143,7 +158,7 @@ namespace SymfosysCMD.Framework
                         // ignored
                     }
                 }
-
+                ProcessAsyncHelper.currentProcess = null;
                 // Read stdout/stderr
                 result.StdOut = stdOutBuilder.ToString();
                 result.StdErr = stdErrBuilder.ToString();

@@ -3,7 +3,7 @@
 	<Product Id="*" 
            Name="SymfosysCMD" 
            Language="1033" 
-           Version="1.0.0.6" 
+           Version="1.0.0.7" 
            Manufacturer="IndyDevGuy" 
            UpgradeCode="{35A9AFB4-1F69-49B5-A665-025918916332}">
     
@@ -107,6 +107,30 @@
 
       <Component Id="AutoUpdater.NET.xml" Guid="*">
         <File Id='AutoUpdater.NET.xml' Source="$(var.SymfosysCMD.TargetDir)AutoUpdater.NET.xml" />
+      </Component>
+      
+      <Component Id="LiveCharts.dll" Guid="*">
+        <File Id='LiveCharts.dll' Source="$(var.SymfosysCMD.TargetDir)LiveCharts.dll" />
+      </Component>
+      
+      <Component Id="LiveCharts.pdb" Guid="*">
+        <File Id='LiveCharts.pdb' Source="$(var.SymfosysCMD.TargetDir)LiveCharts.pdb" />
+      </Component>
+      
+      <Component Id="LiveCharts.xml" Guid="*">
+        <File Id='LiveCharts.xml' Source="$(var.SymfosysCMD.TargetDir)LiveCharts.xml" />
+      </Component>
+      
+      <Component Id="LiveCharts.Wpf.dll" Guid="*">
+        <File Id='LiveCharts.Wpf.dll' Source="$(var.SymfosysCMD.TargetDir)LiveCharts.Wpf.dll" />
+      </Component>
+      
+      <Component Id="LiveCharts.Wpf.pdb" Guid="*">
+        <File Id='LiveCharts.Wpf.pdb' Source="$(var.SymfosysCMD.TargetDir)LiveCharts.Wpf.pdb" />
+      </Component>
+      
+      <Component Id="LiveCharts.Wpf.xml" Guid="*">
+        <File Id='LiveCharts.Wpf.xml' Source="$(var.SymfosysCMD.TargetDir)LiveCharts.Wpf.xml" />
       </Component>
 
       <Component Id="MaterialDesignColors.dll" Guid="*">

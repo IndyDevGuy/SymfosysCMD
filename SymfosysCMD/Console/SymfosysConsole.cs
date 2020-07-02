@@ -1,4 +1,5 @@
-﻿using SymfosysCMD.Controls;
+﻿using LiveCharts.Defaults;
+using SymfosysCMD.Controls;
 using SymfosysCMD.Framework;
 using SymfosysCMD.Windows;
 using System;
@@ -42,7 +43,6 @@ namespace SymfosysCMD.Console
             this.console = this.projectConsoleTabControl.SymfonyConsole;
             this.console.Document.Blocks.Clear();
             this.tab.Content = this.projectConsoleTabControl;
-            
             this.mainWindow.consoleTabControl.Items.Add(this.tab);
             this.tab.Focus();
         }
@@ -66,6 +66,7 @@ namespace SymfosysCMD.Console
         public async void callCommand(Boolean clearConsole = true)
         {
             this.projectConsoleTabControl.CallingCommand = true;
+            this.projectConsoleTabControl.initSeriesCollections();
             if (clearConsole)
                 this.clearConsole();
             Process p = new Process();
@@ -77,11 +78,18 @@ namespace SymfosysCMD.Console
             p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.WorkingDirectory = @"" + this.profile.getDocumentRoot();
             p.StartInfo.Arguments = "/c php bin/console "  + command;
+            ProcessAsyncHelper.console = this;
             Result result = await ProcessAsyncHelper.RunAsync(p.StartInfo);
-            string texter = result.StdOut;
-            this.console.AppendText(texter);
+            //string texter = result.StdOut;
+            //this.console.AppendText(texter);
             this.projectConsoleTabControl.CallingCommand = false;
-
+            this.projectConsoleTabControl.timer.Stop();
+            this.projectConsoleTabControl.CPUUsage = "0";
+            this.projectConsoleTabControl.RAMUsage = "0";
+            this.projectConsoleTabControl.CPUSeriesCollection[0].Values.Add(new ObservableValue(0));
+            this.projectConsoleTabControl.CPUSeriesCollection[0].Values.Add(new ObservableValue(0));
+            this.projectConsoleTabControl.RAMSeriesCollection[0].Values.Add(new ObservableValue(0));
+            this.projectConsoleTabControl.RAMSeriesCollection[0].Values.Add(new ObservableValue(0));
         }
     }
 }

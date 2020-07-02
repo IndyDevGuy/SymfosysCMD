@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SymfosysCMD.Controls"
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -16,9 +17,100 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <RichTextBox Grid.Column="0" Grid.Row="0" x:Name="SymfonyConsole" 
+
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <RichTextBox Grid.Column="0" x:Name="SymfonyConsole" 
                      IsReadOnly="True" BorderThickness="1" BorderBrush="DarkGreen" 
-                     Focusable="False" SelectionBrush="DarkGreen"/>
+                     Focusable="False" SelectionBrush="DarkGreen" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" />
+
+            <Grid Margin="10,0,0,0" Grid.Column="1">
+                <Grid.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=Border1}" />
+                </Grid.OpacityMask>
+                <Grid.Resources>
+                    <Style TargetType="lvc:LineSeries">
+                        <Setter Property="StrokeThickness" Value="3"></Setter>
+                        <Setter Property="Stroke" Value="DarkGreen"></Setter>
+                        <Setter Property="Fill" Value="#4EFFFFFF"></Setter>
+                        <Setter Property="PointGeometrySize" Value="0"></Setter>
+                        <Setter Property="LineSmoothness" Value="0"></Setter>
+                    </Style>
+                    <Style TargetType="lvc:Axis">
+                        <Setter Property="ShowLabels" Value="False"></Setter>
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height=".50*"></RowDefinition>
+                    <RowDefinition Height=".50*"></RowDefinition>
+                    <RowDefinition Height=".5*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border x:Name="Border1" Grid.Row="0" Grid.RowSpan="4" CornerRadius="5" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer3BackgroundBrush}}" />
+                <Border Grid.Row="0" Grid.RowSpan="3" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}" ></Border>
+                <TextBlock Grid.Row="0" TextAlignment="Center" Padding="0, 10, 0, 0" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="18">
+                    Command Resource Usage
+                </TextBlock>
+                <lvc:CartesianChart Grid.Row="1" Margin="0, 0, 0, 0" Series="{Binding CPUSeriesCollection}" Hoverable="false">
+                    <lvc:CartesianChart.DataTooltip>
+                        <lvc:DefaultTooltip Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}" SelectionMode="OnlySender" />
+                    </lvc:CartesianChart.DataTooltip>
+                    <lvc:CartesianChart.AxisX>
+                        <!--a small visual improvement, lets hide the first points (x = 0, x=1) to get better animations-->
+                        <lvc:Axis MinValue="0"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+                <lvc:CartesianChart Grid.Row="2" Margin="0, 0, 0, 0" Series="{Binding RAMSeriesCollection}" Hoverable="false">
+                    <lvc:CartesianChart.DataTooltip>
+                        <lvc:DefaultTooltip Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}" SelectionMode="OnlySender" />
+                    </lvc:CartesianChart.DataTooltip>
+                    <lvc:CartesianChart.AxisX>
+                        <!--a small visual improvement, lets hide the first points (x = 0, x=1) to get better animations-->
+                        <lvc:Axis MinValue="0"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Opacity=".4" HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="13">Running Time:</TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock x:Name="commandHourTime" Text="{Binding CommandHourTime}" FontSize="40" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"/>
+                            <TextBlock Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="18" VerticalAlignment="Bottom" Margin="8, 6">:</TextBlock>
+                            <TextBlock x:Name="commandMinuteTime" Text="{Binding CommandMinuteTime}" FontSize="40" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"/>
+                            <TextBlock Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="18" VerticalAlignment="Bottom" Margin="8, 6">:</TextBlock>
+                            <TextBlock x:Name="commandSecondTime" Text="{Binding CommandSecondTime}" FontSize="40" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"/>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Opacity=".4" HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="13">CPU Usage:</TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="40" Text="{Binding CPUUsage, StringFormat={}{0:N1}}" />
+                            <TextBlock Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="18" VerticalAlignment="Bottom" Margin="8, 6">%</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Opacity=".4" HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="13">Memory Usage:</TextBlock>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="40" Text="{Binding RAMUsage, StringFormat={}{0:N1}}" />
+                            <TextBlock Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" FontSize="18" VerticalAlignment="Bottom" Margin="8, 6">%</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                
+            </Grid>
+            
+        </Grid>
+        
         <Grid Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />

@@ -42,6 +42,7 @@
                      Grid.Row="2" 
                      x:Name="UpdateChangelog"
                      IsReadOnly="True"
+                     Focusable="False"
                      ScrollViewer.HorizontalScrollBarVisibility ="Auto" />
     </Grid>
     
