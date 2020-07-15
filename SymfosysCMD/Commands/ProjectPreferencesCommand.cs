@@ -1,13 +1,25 @@
 ﻿using SymfosysCMD.DataContext;
 using SymfosysCMD.Windows;
 using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace SymfosysCMD.Commands
 {
     public class ProjectPreferencesCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged {
+            add
+            {
+                Debug.WriteLine("add");
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+
+        }
         public MainWindow mainWindow;
         ApplicationDataContext _viewModel;
 
@@ -16,9 +28,14 @@ namespace SymfosysCMD.Commands
             this._viewModel = viewModel;
             this.mainWindow = this._viewModel.mainWindow;
         }
+        public void RaiseCanExecuteChanged()
+        {
+            //if (this.CanExecuteChanged != null)
+              //  this.CanExecuteChanged(this, new EventArgs());
+        }
         public bool CanExecute(object parameter)
         {
-            if(!string.IsNullOrEmpty(this.mainWindow.activeProfileName))
+            if(this.mainWindow.activeProfileName != null)
                 return true;
             return false;
         }

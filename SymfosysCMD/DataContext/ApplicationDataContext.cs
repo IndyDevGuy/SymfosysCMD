@@ -79,6 +79,7 @@ namespace SymfosysCMD.DataContext
             set
             {
                 SetProperty(ref _projectName, value);
+                this._projectPreferencesCommand.RaiseCanExecuteChanged();
             }
         }
 

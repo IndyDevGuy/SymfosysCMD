@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Column="0" Padding="5" Background="Transparent">
             <MenuItem x:Name="project_menu" Header="File" Style="{DynamicResource MenuItemParentGreenStyle}">
-                <MenuItem Header="New Project" Command="{Binding NewProjectCommand}" Style="{DynamicResource MenuItemSiblingGreenStyle}" >
+                <MenuItem Header="New Project" Command="{Binding NewProjectCommand}" InputGestureText="Ctrl + N" Style="{DynamicResource MenuItemSiblingGreenStyle}" >
                     <MenuItem.Icon>
                         <Viewbox VerticalAlignment="Top" HorizontalAlignment="Left"  Width="20" Height="20">
                             <Canvas  Margin="0,0,0,5" Width="20" Height="20">

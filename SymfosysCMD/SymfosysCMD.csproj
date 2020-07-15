@@ -158,6 +158,7 @@
     <Compile Include="Console\CommandConsole.cs" />
     <Compile Include="FolderDialog\MainViewModel.cs" />
     <Compile Include="Framework\ViewModel.cs" />
+    <Compile Include="Settings\StaticSettings.cs" />
     <Compile Include="Windows\NewProjectWindow.xaml.cs">
       <DependentUpon>NewProjectWindow.xaml</DependentUpon>
     </Compile>
