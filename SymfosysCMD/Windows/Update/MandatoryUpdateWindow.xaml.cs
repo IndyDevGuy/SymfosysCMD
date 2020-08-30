@@ -29,7 +29,7 @@ namespace SymfosysCMD.Windows.Update
             updateControlInformation.CurrentVersionText.Text = currentVersionString;
             updateControlInformation.UpdateVersionText.Text = updateVersionString;
             updateControlInformation.UpdateOptionText.Text = updateOptionText;
-            //populate the changelog
+            //populate the change log
             HttpClient client = new HttpClient();
             string text = client.GetStringAsync(this.updateInfo.ChangelogURL).Result;
             MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(text));

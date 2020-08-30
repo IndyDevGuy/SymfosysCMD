@@ -2,7 +2,6 @@
 using AutoUpdaterDotNET;
 using Newtonsoft.Json;
 using SymfosysCMD.Windows;
-using System.Windows;
 
 namespace SymfosysCMD.Framework
 {
@@ -61,7 +60,7 @@ namespace SymfosysCMD.Framework
             {
                 var messageBox = new MessageBoxModel
                 {
-                    Text = "There is a problem reaching the update server. Please check your internet connection and try again.",
+                    Text = "There is a problem reaching the update server. Please check your Internet connection and try again.",
                     Caption = "Update check failed",
                     Icon = AdonisUI.Controls.MessageBoxImage.Information,
                     Buttons = new[]

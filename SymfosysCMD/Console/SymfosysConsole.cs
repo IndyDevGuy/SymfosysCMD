@@ -80,8 +80,6 @@ namespace SymfosysCMD.Console
             p.StartInfo.Arguments = "/c php bin/console "  + command;
             ProcessAsyncHelper.console = this;
             Result result = await ProcessAsyncHelper.RunAsync(p.StartInfo);
-            //string texter = result.StdOut;
-            //this.console.AppendText(texter);
             this.projectConsoleTabControl.CallingCommand = false;
             this.projectConsoleTabControl.timer.Stop();
             this.projectConsoleTabControl.CPUUsage = "0";

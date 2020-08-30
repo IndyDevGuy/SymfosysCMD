@@ -161,7 +161,7 @@ namespace SymfosysCMD.Controls
                                 this.CPUUsage = cpuCounter.ToString();
                                 CPUSeriesCollection[0].Values.Add(new ObservableValue(cpuCounter));
                                 //if (CPUSeriesCollection[0].Values.Count > 20)
-                                    //clear old data point after Thrad Sleep time * 40
+                                    //clear old data point after Thread Sleep time * 40
                                     //CPUSeriesCollection[0].Values.RemoveAt(0);
 
                                 double tmpRam = Math.Round((memCounter) / 1024, 2);
@@ -169,7 +169,7 @@ namespace SymfosysCMD.Controls
                                 this.RAMUsage = RAM.ToString();
                                 RAMSeriesCollection[0].Values.Add(new ObservableValue(RAM));
                                 //if (RAMSeriesCollection[0].Values.Count > 40)
-                                //clear old data point after Thrad Sleep time * 40
+                                //clear old data point after Thread Sleep time * 40
                                     //RAMSeriesCollection[0].Values.RemoveAt(0);
                             }
                         }

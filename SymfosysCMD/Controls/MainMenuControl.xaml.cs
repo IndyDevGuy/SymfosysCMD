@@ -51,7 +51,7 @@ namespace SymfosysCMD.Controls
                 consoleManagerRef.AddConsole(tabIndex, symfosysConsole);
                 symfosysConsole.callCommand();
                 symfosysConsole.projectConsoleTabControl.populateCPUInfo();
-                //we need to add a datatab to the profile so that it will auto open on program start if it has not been closed by user
+                //we need to add a data tab to the profile so that it will auto open on program start if it has not been closed by user
                 DataTab dtab = new DataTab();
                 dtab.tabName = tabName;
                 dtab.tabIndex = tabIndex;

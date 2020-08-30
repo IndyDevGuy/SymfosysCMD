@@ -21,7 +21,7 @@ namespace SymfosysCMD.Controls
             this.profileName = profileName;
             //create a instance of the user control
             CloseableHeader closeableHeader = new CloseableHeader();
-            //assign the usercontrol to the tab header
+            //assign the user control to the tab header
             this.Header = closeableHeader;
             // Attach to the CloseableHeader events
             // (Mouse Enter/Leave, Button Click, and Label resize)

@@ -1,5 +1,4 @@
 ﻿//Adonis UI
-using AdonisUI;
 using AdonisUI.Controls;
 //System
 using System.Collections.Generic;
@@ -8,10 +7,6 @@ using System.Windows.Input;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows;
-//Autoupdater
-using AutoUpdaterDotNET;
-//newtonsoft json
-using Newtonsoft.Json;
 //Symfosys
 using SymfosysCMD.Controls;
 using SymfosysCMD.DataContext;
@@ -94,7 +89,7 @@ namespace SymfosysCMD.Windows
             //init tabs
             this.projectInformationTab = new TabItem();
             this.projectInformationTab.Style = (Style)this.FindResource("AppTabItem");
-            this.projectInformationTab.Header = "Project Inforamtion";
+            this.projectInformationTab.Header = "Project Information";
             this.projectInformationControl = new ProjectInformationControl();
             Binding myBinding = new Binding("SymfonyVersion");
             myBinding.Source = this.applicationContext;

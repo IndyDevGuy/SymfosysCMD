@@ -37,7 +37,7 @@ namespace SymfosysCMD.Framework.CPU
 	/// Inherits the CPUUsage class and implements the Query method for Windows 9x systems.
 	/// </summary>
 	/// <remarks>
-	/// <p>This class works on Windows 98 and Windows Millenium Edition.</p>
+	/// <p>This class works on Windows 98 and Windows Millennium Edition.</p>
 	/// <p>You should not use this class directly in your code. Use the CPUUsage.Create() method to instantiate a CPUUsage object.</p>
 	/// </remarks>
 	internal sealed class CpuUsage9x : CpuUsage {
